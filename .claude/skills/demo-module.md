@@ -26,9 +26,56 @@ This separates what presenters need to **understand** (business value) from what
 
 ## Workflow
 
-### Step 1: Gather Requirements
+### Step 1: Determine Context (First Module vs Continuation)
 
-I'll ask you these key questions:
+**First, I'll ask**:
+- Is this the first module of a new demo, or continuing an existing demo?
+- If continuing: Provide path to previous module (I'll auto-detect the story)
+
+### Step 2: Plan Overall Demo Story (if first module)
+
+If this is the first module, I'll gather the big picture:
+
+1. **Demo overview**:
+   - What's the overall message of this demo?
+   - Example: "Show how OpenShift accelerates application deployment for enterprises"
+
+2. **Target audience**:
+   - Who will see this demo? (C-level, Sales engineers, Technical managers, Partners)
+   - Their business priorities? (Cost reduction, faster time-to-market, competitive advantage)
+
+3. **Business transformation story**:
+   - What's the customer challenge you're solving?
+   - What's the current state pain?
+   - What's the desired future state?
+
+4. **Customer scenario**:
+   - What company/industry should we use?
+   - Default: "RetailCo", "FinanceCorp", "TechSolutions" or custom
+   - Specific business challenge driving urgency?
+
+5. **Key metrics to showcase**:
+   - What quantifiable improvements to highlight?
+   - Example: "6 weeks → 5 minutes deployment time"
+
+6. **Estimated demo duration**:
+   - How long should complete demo take? (15min, 30min, 45min)
+
+**Then I'll recommend**:
+- Suggested module/section breakdown
+- Know/Show structure for each section
+- Business narrative arc across modules
+- Key proof points and "wow moments"
+- Competitive differentiators to emphasize
+
+**You can**:
+- Accept the recommended flow
+- Adjust sections and messaging
+- Change business emphasis
+
+### Step 3: Gather Module-Specific Details
+
+Now for this specific module:
 
 1. **Module file name**:
    - Module file name (e.g., "03-demo-intro.adoc", "04-platform-demo.adoc")
@@ -68,7 +115,7 @@ I'll ask you these key questions:
    - I'll save them to `content/modules/ROOT/assets/images/`
    - And reference them properly in Show sections
 
-### Step 2: Extract AgnosticV UserInfo Variables (if applicable)
+### Step 4: Extract AgnosticV UserInfo Variables (if applicable)
 
 If you provided an AgnosticV catalog item, I'll:
 
@@ -95,7 +142,7 @@ If you provided an AgnosticV catalog item, I'll:
 
 **Result**: I'll use these in Show sections for precise presenter instructions.
 
-### Step 3: Handle Diagrams, Screenshots, and Demo Scripts (if provided)
+### Step 5: Handle Diagrams, Screenshots, and Demo Scripts (if provided)
 
 If you provided visual assets or scripts:
 
@@ -138,7 +185,7 @@ If you provided visual assets or scripts:
 - Results: `deployment-success.png`, `metrics-dashboard.png`
 - Comparisons: `before-state.png`, `after-state.png`
 
-### Step 4: Fetch and Analyze References
+### Step 6: Fetch and Analyze References
 
 Based on your references, I'll:
 - Fetch URLs and extract technical capabilities
@@ -149,14 +196,14 @@ Based on your references, I'll:
 - Combine with AgnosticV variables (if provided)
 - Integrate provided diagrams and screenshots strategically
 
-### Step 5: Read Demo Templates
+### Step 7: Read Demo Templates
 
 I'll read these before generating:
 - `content/modules/ROOT/pages/demo/03-module-01.adoc`
 - `content/modules/ROOT/pages/demo/01-overview.adoc`
 - `.claude/prompts/redhat_style_guide_validation.txt`
 
-### Step 4: Generate Demo Module
+### Step 8: Generate Demo Module
 
 I'll create a module with Know/Show structure:
 
@@ -223,18 +270,27 @@ image::deployment-progress.png[align="center",width=700,title="Deployment in Pro
   "This self-service capability means your development team can meet the 4-week Black Friday deadline and ship updates daily instead of quarterly."
 ```
 
-### Step 5: Validate
+### Step 9: Validate
 
 I'll automatically run:
 - **workshop-reviewer** agent: Validates structure
 - **style-enforcer** agent: Applies Red Hat style standards
 - Verify Know/Show balance and business focus
 
-### Step 6: Update Navigation
+### Step 10: Update Navigation (REQUIRED)
 
-I'll ask if you want me to add the module to `content/modules/ROOT/nav.adoc`.
+I'll automatically add the module to `content/modules/ROOT/nav.adoc` - this is REQUIRED for the module to appear in the Showroom sidebar.
 
-### Step 7: Deliver
+**What I'll add**:
+```asciidoc
+* xref:<module-file>[<Module Number>. <Module Title>]
+** xref:<module-file>#part-1[Part 1: <Title>]
+** xref:<module-file>#part-2[Part 2: <Title>]
+```
+
+**Note**: Without this nav.adoc entry, your demo won't be accessible in Showroom!
+
+### Step 11: Deliver
 
 You'll get:
 
@@ -258,33 +314,106 @@ You'll get:
 
 ## Example Usage
 
+### Example 1: Create First Demo Module with Overall Story Planning
+
+```
+User: Create a demo showing OpenShift value for C-level executives
+
+Skill: Excellent! Since this is a new demo, let me gather the overall story first.
+
+**Overall Demo Planning:**
+
+Q: Is this the first module or continuing existing demo?
+A: First module of a new demo
+
+Q: What's the overall message?
+A: "Show how OpenShift reduces time-to-market and operational costs for enterprises"
+
+Q: Target audience?
+A: C-level executives (CTO, CIO) evaluating platform modernization
+
+Q: What are their business priorities?
+A: - Reduce operational costs
+   - Faster feature delivery to stay competitive
+   - Risk mitigation (security, compliance)
+
+Q: Business transformation story?
+A: Current state: Manual deployments take 6-8 weeks, blocking business initiatives
+   Desired state: Self-service platform enabling daily deployments
+
+Q: Customer scenario?
+A: "RetailCo" - Retail company facing Black Friday deadline with current 10-week deployment cycles
+
+Q: Key metrics to showcase?
+A: - 8 weeks → 10 minutes deployment time
+   - 80% reduction in infrastructure costs
+   - 95% reduction in security vulnerabilities
+
+Q: Demo duration?
+A: 30 minutes total
+
+**Recommended Demo Flow:**
+
+Based on your goals, I recommend 2 modules:
+
+Module 1: Platform Value & Developer Experience (15 min)
+- Know: RetailCo's deployment challenge, business impact
+- Show: Self-service deployment demonstration
+- Proof point: 8 weeks → 10 minutes
+- Story: Developer empowerment, IT team efficiency
+
+Module 2: Business Continuity & ROI (15 min)
+- Know: Cost structure, security posture improvements
+- Show: Auto-scaling, built-in security scanning
+- Proof point: 80% cost reduction, 95% fewer vulnerabilities
+- Story: Strategic platform investment ROI
+
+Does this flow work for you, or adjustments needed?
+
+User: Perfect! Create Module 1.
+
+Skill: Great! Now let me gather details for Module 1...
+
+Q1: Module file name? → "03-platform-value.adoc"
+Q2: AgnosticV catalog item? → "ocp4_workload_demo"
+Q3: Reference materials? → https://www.redhat.com/en/technologies/cloud-computing/openshift
+Q4: Target audience details? → C-level (using overall)
+Q5: Business scenario? → "RetailCo" (using overall story)
+Q6: Technology? → "OpenShift Container Platform"
+Q7: Demo parts? → 3
+Q8: Key metrics? → "8 weeks → 10 minutes" (using overall)
+Q9: Diagrams? → Architecture diagram: ~/diagrams/retail-platform.png
+
+[Generates Module 1 with RetailCo story]
+[Sets up story arc for Module 2]
+
+✓ Created: content/modules/ROOT/pages/03-platform-value.adoc
+✓ Story established: RetailCo's platform modernization journey
+✓ Business metrics integrated throughout
+✓ Module flow documented for Module 2
+✓ Ready for Module 2 (will auto-continue story)
+```
+
+### Example 2: Basic Demo Creation
+
 ```
 User: Create demo Module 1 for OpenShift using:
       https://docs.openshift.com/container-platform/4.14/
 
 Skill: I'll create that demo module. Let me ask questions...
-
-Q1: Demo name? → "openshift-platform-value"
-Q2: Module number? → 03 (Module 1)
-Q3: Target audience? → "Sales engineers presenting to C-level"
-Q4: Business scenario? → "RetailCo needs faster time-to-market"
-Q5: Technology focus? → "OpenShift Container Platform"
-Q6: Number of parts? → 3
-Q7: Key metrics? → "6 weeks → 5 minutes deployment time"
-
-[Generates module with:]
-- Part 1: Self-service developer platform
-- Part 2: Automated CI/CD pipelines
-- Part 3: Business continuity and scaling
-- Each part has Know (business context) + Show (demo steps)
-- Business value callouts throughout
+       [asks if first module or continuing]
+       [if first: asks overall story questions]
+       [asks module-specific questions]
+       [generates module with business story]
+       [validates with agents]
 
 ✓ Created: content/modules/ROOT/pages/03-platform-demo.adoc
 ✓ Presenter notes included
 ✓ Screenshot guide provided
+✓ Navigation updated
 ```
 
-### Example 2: Create Demo with Architecture Diagrams
+### Example 3: Create Demo with Architecture Diagrams
 
 ```
 User: Create demo for OpenShift AI value proposition. I have:

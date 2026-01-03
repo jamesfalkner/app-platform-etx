@@ -17,9 +17,50 @@ Guide you through creating a single Red Hat Showroom workshop module from refere
 
 ## Workflow
 
-### Step 1: Gather Requirements
+### Step 1: Determine Context (First Module vs Continuation)
 
-I'll ask you these key questions:
+**First, I'll ask**:
+- Is this the first module of a new lab, or continuing an existing lab?
+- If continuing: Provide path to previous module (I'll auto-detect the story)
+
+### Step 2: Plan Overall Lab Story (if first module)
+
+If this is the first module, I'll gather the big picture:
+
+1. **Lab overview**:
+   - What's the overall goal of this lab?
+   - Example: "Learn to build and deploy AI/ML workloads on OpenShift AI"
+
+2. **Target audience**:
+   - Who is this lab for? (Developers, Architects, SREs, Data Scientists, etc.)
+   - Experience level? (Beginner, Intermediate, Advanced)
+
+3. **Learning journey**:
+   - What should learners know by the end?
+   - What skills will they gain?
+
+4. **Story/scenario**:
+   - What company/business scenario should we use?
+   - What's the business challenge driving this?
+   - Default: "ACME Corp" or custom company
+
+5. **Estimated duration**:
+   - How long should the complete lab take? (30min, 1hr, 2hr, etc.)
+
+**Then I'll recommend**:
+- Suggested module breakdown (how many modules, what each covers)
+- Progressive learning flow (foundational → intermediate → advanced)
+- Story arc across modules
+- Key milestones and checkpoints
+
+**You can**:
+- Accept the recommended flow
+- Adjust module count and topics
+- Change the progression
+
+### Step 3: Gather Module-Specific Details
+
+Now for this specific module:
 
 1. **Module file name**:
    - Module file name (e.g., "03-module-01.adoc", "04-pipelines-setup.adoc")
@@ -56,7 +97,7 @@ I'll ask you these key questions:
    - I'll save them to `content/modules/ROOT/assets/images/`
    - And reference them properly in AsciiDoc
 
-### Step 2: Extract AgnosticV UserInfo Variables (if applicable)
+### Step 4: Extract AgnosticV UserInfo Variables (if applicable)
 
 If you provided an AgnosticV catalog item, I'll:
 
@@ -102,7 +143,7 @@ If you provided an AgnosticV catalog item, I'll:
 
 **Result**: I'll use these as Showroom variables in the generated module.
 
-### Step 3: Handle Diagrams, Screenshots, and Code Blocks (if provided)
+### Step 5: Handle Diagrams, Screenshots, and Code Blocks (if provided)
 
 If you provided visual assets or code:
 
@@ -137,7 +178,7 @@ If you provided visual assets or code:
 - Command outputs: `oc-get-pods-output.png`, `build-logs.png`
 - Step-by-step: `step-1-create-task.png`, `step-2-run-pipeline.png`
 
-### Step 4: Fetch and Analyze References
+### Step 6: Fetch and Analyze References
 
 Based on your references, I'll:
 - Fetch URLs with WebFetch
@@ -147,14 +188,14 @@ Based on your references, I'll:
 - Combine with AgnosticV variables (if provided)
 - Integrate provided code blocks and diagrams
 
-### Step 5: Read Templates
+### Step 7: Read Templates
 
 I'll always read these before generating:
 - `content/modules/ROOT/pages/workshop/templates/03-module-01.adoc`
 - `content/modules/ROOT/pages/workshop/example/03-module-01.adoc`
 - `.claude/prompts/redhat_style_guide_validation.txt`
 
-### Step 5: Generate Module
+### Step 8: Generate Module
 
 I'll create a complete module with:
 
@@ -174,17 +215,26 @@ I'll create a complete module with:
 - Second-person narrative
 - Code blocks with syntax highlighting
 
-### Step 6: Validate
+### Step 9: Validate
 
 I'll automatically run:
 - **workshop-reviewer** agent: Validates structure and pedagogy
 - **style-enforcer** agent: Applies Red Hat style standards
 
-### Step 7: Update Navigation
+### Step 10: Update Navigation (REQUIRED)
 
-I'll ask if you want me to add the module to `content/modules/ROOT/nav.adoc` (required for Showroom sidebar).
+I'll automatically add the module to `content/modules/ROOT/nav.adoc` - this is REQUIRED for the module to appear in the Showroom sidebar.
 
-### Step 8: Deliver
+**What I'll add**:
+```asciidoc
+* xref:<module-file>[<Module Number>. <Module Title>]
+** xref:<module-file>#exercise-1[Exercise 1: <Title>]
+** xref:<module-file>#exercise-2[Exercise 2: <Title>]
+```
+
+**Note**: Without this nav.adoc entry, your module won't be accessible in Showroom!
+
+### Step 11: Deliver
 
 You'll get:
 
@@ -206,15 +256,132 @@ You'll get:
 
 ## Example Usage
 
-### Example 1: Create Module from Red Hat Docs
+### Example 1: Create First Module with Overall Story Planning
+
+```
+User: Create a lab about OpenShift Pipelines for developers
+
+Skill: Great! Since this is a new lab, let me gather the overall story first.
+
+**Overall Lab Planning:**
+
+Q: Is this the first module or continuing existing lab?
+A: First module of a new lab
+
+Q: What's the overall goal of this lab?
+A: "Teach developers how to build and deploy cloud-native CI/CD pipelines using OpenShift Pipelines"
+
+Q: Target audience?
+A: Intermediate developers familiar with containers and Kubernetes
+
+Q: What should learners know by the end?
+A: - Create Tekton tasks and pipelines
+   - Integrate with Git repositories
+   - Deploy applications via automated pipelines
+   - Troubleshoot pipeline failures
+
+Q: Company/business scenario?
+A: "DevOps Corp" - A company struggling with slow, manual deployment processes
+
+Q: Estimated total duration?
+A: 90 minutes
+
+**Recommended Module Flow:**
+
+Based on your goals, I recommend 3 modules:
+
+Module 1: Pipeline Fundamentals (30 min)
+- Introduce Tekton concepts
+- Create first task
+- Run simple pipeline
+- Story: DevOps Corp's current manual deployment pain
+
+Module 2: Git Integration & Automation (30 min)
+- Connect pipelines to Git
+- Trigger on commits
+- Build from source
+- Story: Enabling developer self-service
+
+Module 3: Production Pipelines (30 min)
+- Multi-stage pipelines (dev, test, prod)
+- Pipeline parameters and workspaces
+- Monitoring and troubleshooting
+- Story: Full automation, reduced deployment time
+
+Does this flow work for you, or would you like adjustments?
+
+User: Perfect! Let's start with Module 1.
+
+Skill: Excellent! Now let me gather details for Module 1...
+
+Q1: Module file name? → "03-pipelines-intro.adoc"
+Q2: AgnosticV catalog item? → None
+Q3: Reference materials? → https://docs.openshift.com/pipelines/1.12/
+Q4: Learning objective? → "Create and execute your first Tekton pipeline"
+Q5: Business scenario? → "DevOps Corp" (using overall story)
+Q6: Technology? → "OpenShift Pipelines / Tekton"
+Q7: Exercise count? → 3
+Q8: Diagrams/code? → No, not yet
+
+[Generates Module 1 with DevOps Corp story]
+[Sets up story arc for modules 2 and 3]
+
+✓ Created: content/modules/ROOT/pages/03-pipelines-intro.adoc
+✓ Story established: DevOps Corp's deployment transformation
+✓ Module flow documented for next modules
+✓ Ready for Module 2 (will auto-continue story)
+```
+
+### Example 2: Continue Existing Lab (Auto-Detect Story)
+
+```
+User: Create Module 2 for the OpenShift Pipelines lab
+
+Skill: Let me check if this continues an existing lab...
+
+Q: Is this first module or continuing?
+A: Continuing existing lab
+
+Q: Path to previous module?
+A: content/modules/ROOT/pages/03-pipelines-intro.adoc
+
+[Reads previous module]
+→ Detected story: "DevOps Corp deployment transformation"
+→ Detected company: "DevOps Corp"
+→ Detected progression: Module 1 covered fundamentals
+→ Next logical step: Git integration
+
+I'll continue the DevOps Corp story. Now for Module 2 details...
+
+Q1: Module file name? → "04-pipelines-git.adoc"
+Q2: AgnosticV catalog item? → None
+Q3: Reference materials? → https://docs.openshift.com/pipelines/.../triggers
+Q4: Learning objective? → "Automate pipeline execution via Git webhooks"
+Q5: Technology? → "OpenShift Pipelines / Tekton Triggers"
+Q6: Exercise count? → 3
+Q7: Diagrams/code? → No
+
+[Generates Module 2]
+- Continues DevOps Corp narrative
+- References accomplishments from Module 1
+- Builds toward Module 3's production pipeline
+
+✓ Created: content/modules/ROOT/pages/04-pipelines-git.adoc
+✓ Story continuity maintained from Module 1
+✓ Ready for Module 3 (final module in recommended flow)
+```
+
+### Example 3: Create Module from Red Hat Docs
 
 ```
 User: Create Module 1 for OpenShift Pipelines using:
       https://docs.openshift.com/pipelines/1.12/
 
 Skill: I'll create that module. Let me ask a few questions...
-       [asks 7 questions]
-       [generates module with ACME Corp scenario]
+       [asks if first module or continuing]
+       [if first: asks overall story questions]
+       [asks module-specific questions]
+       [generates module with scenario]
        [validates with agents]
 
 ✓ Created: content/modules/ROOT/pages/03-pipelines-intro.adoc
