@@ -28,34 +28,68 @@ This separates what presenters need to **understand** (business value) from what
 
 ### Step 1: Gather Requirements
 
-I'll ask you 7 key questions:
+I'll ask you these key questions:
 
-1. **Demo name and module number**:
-   - Demo name (subdirectory under demo/)
-   - Module number (03 for Module 1, 04 for Module 2, etc.)
+1. **Module file name**:
+   - Module file name (e.g., "03-demo-intro.adoc", "04-platform-demo.adoc")
+   - Files go directly in `content/modules/ROOT/pages/`
+   - Pattern: `[number]-[topic-name].adoc`
 
-2. **Reference materials**:
+2. **AgnosticV catalog item** (optional but recommended):
+   - Is this based on an AgnosticV catalog item?
+   - If yes: Provide catalog item name (e.g., "ocp4_workload_rhods_demo")
+   - Default AgnosticV path: `~/work/code/agnosticv/`
+   - I'll read the catalog item to extract UserInfo variables
+
+3. **Reference materials**:
    - URLs to Red Hat docs
    - Local files (Markdown, AsciiDoc, PDF)
    - Or paste content directly
 
-3. **Target audience**:
+4. **Target audience**:
    - Sales engineers, C-level executives, technical managers, developers
 
-4. **Business scenario/challenge**:
+5. **Business scenario/challenge**:
    - Auto-detect from previous module (if exists)
    - Or ask for customer scenario (e.g., "RetailCo needs faster deployments")
 
-5. **Technology/product focus**:
+6. **Technology/product focus**:
    - Example: "OpenShift", "Ansible Automation Platform"
 
-6. **Number of demo parts**:
+7. **Number of demo parts**:
    - Recommended: 2-4 parts (each with Know/Show sections)
 
-7. **Key metrics/business value**:
+8. **Key metrics/business value**:
    - Example: "Reduce deployment time from 6 weeks to 5 minutes"
 
-### Step 2: Fetch and Analyze References
+### Step 2: Extract AgnosticV UserInfo Variables (if applicable)
+
+If you provided an AgnosticV catalog item, I'll:
+
+**Read AgnosticV catalog configuration**:
+- Location: `~/work/code/agnosticv/`
+- Find catalog item directory: `catalogs/<item-name>/`
+- Read `common.yaml` for workload list and variables
+
+**Identify workload roles from AgnosticD**:
+- AgnosticD v2: `~/work/code/agnosticd-v2/`
+- AgnosticD v1: `~/work/code/agnosticd/`
+- Read workload roles referenced in common.yaml
+
+**Extract UserInfo variables**:
+- Search for `agnosticd_user_info` tasks in workload roles
+- Extract variables from `data:` sections
+- Map to Showroom attributes for demo content
+
+**Common demo variables**:
+- `openshift_console_url` → For showing presenter where to log in
+- `api_url`, `dashboard_url` → For product-specific UIs
+- `user_name`, `user_password` → For demo credentials
+- Custom workload variables → Product-specific endpoints
+
+**Result**: I'll use these in Show sections for precise presenter instructions.
+
+### Step 3: Fetch and Analyze References
 
 Based on your references, I'll:
 - Fetch URLs and extract technical capabilities
@@ -63,8 +97,9 @@ Based on your references, I'll:
 - Identify business value propositions
 - Extract metrics and quantifiable benefits
 - Map technical features to business outcomes
+- Combine with AgnosticV variables (if provided)
 
-### Step 3: Read Demo Templates
+### Step 4: Read Demo Templates
 
 I'll read these before generating:
 - `content/modules/ROOT/pages/demo/03-module-01.adoc`
@@ -152,7 +187,7 @@ I'll ask if you want me to add the module to `content/modules/ROOT/nav.adoc`.
 ### Step 7: Deliver
 
 You'll get:
-- Complete demo module at `content/modules/ROOT/pages/demo/<demo-name>/<module-file>.adoc`
+- Complete demo module at `content/modules/ROOT/pages/<module-file>.adoc`
 - Screenshot capture guide (with emphasis on presenter view)
 - Navigation xref snippet
 - Presenter notes
@@ -181,7 +216,7 @@ Q7: Key metrics? → "6 weeks → 5 minutes deployment time"
 - Each part has Know (business context) + Show (demo steps)
 - Business value callouts throughout
 
-✓ Created: demo/openshift-platform-value/03-module-01.adoc
+✓ Created: content/modules/ROOT/pages/03-platform-demo.adoc
 ✓ Presenter notes included
 ✓ Screenshot guide provided
 ```
@@ -283,8 +318,8 @@ Every demo module will have:
 - `style-enforcer` - Applies Red Hat style
 
 **Files created**:
-- Demo module: `content/modules/ROOT/pages/demo/<demo-name>/<module-file>.adoc`
-- Assets: `content/modules/ROOT/assets/images/<demo-name>/`
+- Demo module: `content/modules/ROOT/pages/<module-file>.adoc`
+- Assets: `content/modules/ROOT/assets/images/`
 
 **Files modified** (with permission):
 - `content/modules/ROOT/nav.adoc` - Adds navigation entry
