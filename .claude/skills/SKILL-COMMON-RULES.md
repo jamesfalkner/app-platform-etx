@@ -253,11 +253,69 @@ Both lab and demo skills provide intelligent AgnosticV (AgV) configuration assis
 
 **When**: Step 2.5 - After overall story planning (Step 2), before module-specific details (Step 3)
 
-**Conditional**: Only triggered if:
-1. User needs a deployed environment (not documentation-only)
-2. User doesn't already have an AgV catalog configured
+**IMPORTANT**: This is OPTIONAL assistance - always ask first!
+
+### Initial Opt-In Question
+
+**First, ask if user needs AgV help:**
+
+```
+Q: Do you need help with AgnosticV catalog configuration?
+
+Options:
+1. "No, RHDP developers already set up my catalog" → Skip to Step 3
+2. "No, I'll handle AgV myself" → Skip to Step 3
+3. "Yes, help me find an existing catalog" → Continue to catalog search ↓
+4. "Yes, help me create a new catalog" → Continue to catalog creation ↓
+5. "What's AgnosticV?" → Explain and ask again
+
+Your choice? [1/2/3/4/5]
+```
+
+**If user chooses 1 or 2 (No help needed):**
+```
+✓ Skipping AgV configuration
+
+You can proceed with placeholder attributes in your workshop/demo content:
+- {openshift_console_url}
+- {user}, {password}
+- {openshift_api_url}
+
+These will be replaced with actual values when deployed via your AgV catalog.
+
+→ Proceeding to Step 3: Module-Specific Details
+```
+
+**If user chooses 3 or 4 (Yes, help needed):**
+- Continue to Access Check Protocol ↓
+
+**If user chooses 5 (Explain):**
+```
+**What is AgnosticV?**
+
+AgnosticV (AgV) defines catalog items in Red Hat Demo Platform (RHDP) that provision workshop/demo environments.
+
+Think of it as:
+- **What to deploy**: OpenShift cluster + workloads (AI, Pipelines, etc.)
+- **Who provisions**: RHDP automation
+- **Where defined**: agnosticv repository (common.yaml files)
+
+**You need AgV if:**
+- Your workshop/demo needs a live OpenShift cluster
+- You want automated infrastructure provisioning
+- You're deploying to RHDP
+
+**You DON'T need AgV if:**
+- RHDP developers already created your catalog
+- Documentation/slides only (no hands-on)
+- Using external/customer clusters
+
+Do you need help with AgV configuration? [Yes/No]
+```
 
 ### Access Check Protocol
+
+**Only asked if user chose "Yes" to AgV help:**
 
 **Ask for AgnosticV path:**
 

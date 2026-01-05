@@ -85,26 +85,44 @@ If this is the first module, I'll gather the big picture:
 - Adjust sections and messaging
 - Change business emphasis
 
-### Step 2.5: AgnosticV Configuration Assistance
+### Step 2.5: AgnosticV Configuration Assistance (OPTIONAL)
 
-**See `.claude/skills/SKILL-COMMON-RULES.md` section "AgnosticV Configuration Assistance"** for complete workflow including:
+**IMPORTANT**: This is **optional** assistance. First ask if user needs help.
+
+**Initial question:**
+```
+Q: Do you need help with AgnosticV catalog configuration?
+
+Options:
+1. No, already set up → Skip to Step 3
+2. No, I'll handle it myself → Skip to Step 3
+3. Yes, help me find existing catalog
+4. Yes, help me create new catalog
+5. What's AgnosticV?
+
+Your choice? [1/2/3/4/5]
+```
+
+**If user needs help (options 3-4):**
+
+See `.claude/skills/SKILL-COMMON-RULES.md` section "AgnosticV Configuration Assistance" for complete workflow including:
 - Access check protocol
-- User-suggested catalog search (Q3)
+- User-suggested catalog search
 - Keyword-based recommendations
-- Catalog creation workflow (multi-user, infrastructure, collections, git workflow, config generation)
+- Workload selection assistant
+- Catalog creation workflow
 - UserInfo variable extraction
 
-**Demo-specific defaults:**
+**Demo-specific defaults** (when creating new catalog):
 - Multi-user: Dedicated (recommended for presenter-led demos)
-- Authentication: Keycloak
+- Authentication: Keycloak (recommended)
 - Category: Demos
 - Infrastructure: SNO for dedicated demos, CNV for demo workshops
+- Showroom: ocp4_workload_showroom (for OCP-based)
 
-**Workflow triggers when:**
-1. User needs deployed environment (not presentation-only)
-2. User doesn't already have an AgV catalog configured
-
-**After AgV assistance completes, proceed to Step 3: Module-Specific Details**
+**If user doesn't need help (options 1-2):**
+- Use placeholder attributes in demo content
+- Proceed directly to Step 3
 
 ---
 
