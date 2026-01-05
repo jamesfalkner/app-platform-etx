@@ -114,12 +114,55 @@ When creating modules 2+:
 
 **Fallback**: If previous module unavailable, asks for story recap (company, topics covered, skills gained, current state)
 
-### 3. AgnosticV Integration
-Both lab and demo skills can:
-- Read AgnosticV catalog items (`~/work/code/agnosticv/`)
-- Extract workload roles from AgnosticD v2 and v1
-- Find `agnosticd_user_info` variables
-- Map to Showroom attributes: `{openshift_console_url}`, `{user}`, `{password}`, etc.
+### 3. AgnosticV Configuration Assistance (NEW)
+
+Both lab and demo skills provide intelligent AgnosticV (AgV) configuration assistance at Step 2.5 (after story planning, before module details).
+
+#### What It Does
+
+**Access-Aware**:
+- Checks if you have access to `~/work/code/agnosticv/`
+- If no access: Provides contact info for RHDP developers, allows continuation with placeholder attributes
+- If has access: Offers full catalog search and creation assistance
+
+**Catalog Discovery** (Two-Tier Approach):
+
+1. **User-Suggested Search (Q3)** - NEW:
+   - Asks: "Do you think there's a catalog that could be a good base?"
+   - If yes: "What's the catalog display name or slug?"
+   - Searches AgV by `__meta__.catalog.display_name` with scoring algorithm:
+     - Display name match: 50 points
+     - Catalog slug match: 40 points
+     - Keyword match: 10 points each
+     - Category match: 5 points
+   - Shows top 5 results with full details (workloads, infrastructure, multi-user support)
+   - Options: Use as-is, create new based on it, see similar, or search by keywords
+
+2. **Keyword-Based Recommendations** (Fallback):
+   - Extracts tech keywords from your story planning (AI, pipelines, GitOps, etc.)
+   - Searches existing `agd_v2/` catalogs
+   - Analyzes workload lists and infrastructure patterns
+   - Shows top 3-5 matches with detailed information
+   - Recommends best use cases
+
+**AgV Catalog Creation**:
+- Multi-user vs Dedicated guidance (Labs → multi-user, Demos → dedicated)
+- Infrastructure selection (CNV default, SNO lightweight, AWS for GPU)
+- Collection recommendations (core_workloads, ai_workloads, showroom, etc.)
+- Directory selection (agd_v2/, enterprise/, summit-2025/, ansiblebu/)
+- **Git workflow** (CRITICAL - NEW):
+  - Always pull main before creating branch
+  - Create branch WITHOUT "feature/" prefix (e.g., `ocp-pipelines-workshop` not `feature/ocp-pipelines-workshop`)
+  - Generates: `common.yaml`, `description.adoc`, `dev.yaml`
+  - Provides commit and push guidance
+- Follows agd_v2 patterns only (no AgDv1 for new configs)
+
+**UserInfo Variable Extraction**:
+- Reads AgnosticV catalog configuration
+- Extracts workload roles from AgnosticD v2 and v1
+- Finds `agnosticd_user_info` variables
+- Maps to Showroom attributes: `{openshift_console_url}`, `{user}`, `{password}`, etc.
+- Uses these in generated module content
 
 ### 4. Production-Quality Guardrails
 
@@ -476,6 +519,27 @@ Skills use these as base:
 **Issue**: nav.adoc not updating
 **Solution**: Check file permissions, skill will warn if update fails
 
+**Issue**: AgnosticV catalog search finds no results
+**Solution**:
+- Try different keywords or spelling
+- Search by catalog slug instead of display name
+- Let skill fall back to keyword-based recommendations
+- Check if you have access to `~/work/code/agnosticv/`
+
+**Issue**: Git workflow fails when creating AgV catalog
+**Solution**:
+- Ensure you're in `~/work/code/agnosticv/` directory
+- Verify you have latest main: `git pull origin main`
+- Don't use "feature/" prefix - use catalog slug only (e.g., `ocp-pipelines-workshop`)
+- Check branch doesn't already exist: `git branch -a | grep <catalog-slug>`
+
+**Issue**: AgV catalog creation recommends wrong infrastructure
+**Solution**:
+- Override recommendations - they're guidance, not requirements
+- CNV: Standard OpenShift workloads (default)
+- SNO: Single-user, lightweight, edge scenarios
+- AWS: Only if you need GPU or >128Gi memory
+
 ---
 
 ## Future Enhancements (Potential)
@@ -506,7 +570,18 @@ Skills use these as base:
 - `24789f5` - Production gaps (all 10 critical guardrails)
 - `d04f048` - README documentation
 - `3982fb4` - Markdown default format for blogs
-- `[pending]` - SKILL-COMMON-RULES.md + production hardening (learning outcomes, visual cues, source traceability)
+- `[completed]` - SKILL-COMMON-RULES.md + production hardening (learning outcomes, visual cues, source traceability)
+- `[current]` - AgV Configuration Assistance enhancements:
+  - User-suggested catalog search (Q3) with display name/slug search
+  - Display name search algorithm with scoring (display_name 50, slug 40, keywords 10, category 5)
+  - Git workflow enforcement (pull main, NO "feature/" prefix for branches)
+  - Multi-user vs dedicated guidance (Labs → multi-user, Demos → dedicated)
+  - Infrastructure selection (CNV default, SNO lightweight, AWS for GPU)
+  - Collection recommendations (core, ai, showroom mapped to keywords)
+  - AgV catalog creation workflow (common.yaml, description.adoc, dev.yaml)
+  - AgDv2-only pattern enforcement
+  - Added Step 2.5 to lab-module.md and demo-module.md
+  - Documented shared contracts in SKILL-COMMON-RULES.md
 
 ---
 
@@ -522,4 +597,4 @@ For issues or enhancements:
 
 **Last Updated**: 2026-01-03
 **Status**: Production-ready with comprehensive guardrails
-**Maintainer**: Prakhar Srivastava (Red Hat)
+**Maintainer**: Red Hat RHDP Team

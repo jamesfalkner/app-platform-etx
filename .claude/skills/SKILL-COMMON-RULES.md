@@ -243,6 +243,420 @@ image::pipelines-intro/create-task-screenshot.png[OpenShift console showing task
 
 ---
 
+## AgnosticV Configuration Assistance (Shared Contract)
+
+**Applies to**: `/lab-module` and `/demo-module` skills
+
+Both lab and demo skills provide intelligent AgnosticV (AgV) configuration assistance to help users find existing catalogs or create new ones following agd_v2 best practices.
+
+### Workflow Timing
+
+**When**: Step 2.5 - After overall story planning (Step 2), before module-specific details (Step 3)
+
+**Conditional**: Only triggered if:
+1. User needs a deployed environment (not documentation-only)
+2. User doesn't already have an AgV catalog configured
+
+### Access Check Protocol
+
+**Step 1: Check default AgV path**
+
+First, check if AgnosticV repository exists at the default location (`~/work/code/agnosticv/`).
+
+**If NOT found at default path:**
+
+```
+ℹ️ **AgnosticV Repository Not Found at Default Path**
+
+Q: Can you provide the AgnosticV directory path on your system?
+
+Example paths:
+- ~/work/code/agnosticv/
+- ~/projects/agnosticv/
+- /path/to/agnosticv/
+
+Your AgV path: [Enter path or 'skip' if you don't have access]
+```
+
+**If user provides valid path:**
+- Use that path for catalog search and creation
+- Continue to catalog search workflow ↓
+
+**If user doesn't have access ('skip' or invalid path):**
+
+```
+ℹ️ **No AgnosticV Access**
+
+Your workshop/demo can still be deployed via RHDP, but AgV catalog creation requires access.
+
+**Recommendation:**
+
+Contact RHDP developers to help create your AgV catalog.
+
+**What I can suggest for reuse:**
+
+Based on your workshop/demo "{{ workshop_demo_name }}" with technologies {{ tech_keywords }},
+I recommend these existing catalogs as a good base:
+
+1. **{{ suggested_catalog_1 }}** (Best match)
+   - Display name: "{{ catalog_1_name }}"
+   - Technologies: {{ catalog_1_tech }}
+   - Category: {{ catalog_1_category }}
+
+2. **{{ suggested_catalog_2 }}** (Alternative)
+   - Display name: "{{ catalog_2_name }}"
+   - Technologies: {{ catalog_2_tech }}
+
+**Share this with RHDP developers** when requesting AgV catalog creation.
+
+For now, I'll continue with placeholder attributes in your workshop/demo content:
+- {openshift_console_url}
+- {user}, {password}
+- {openshift_api_url}
+
+→ Proceeding to Step 3: Module-Specific Details
+```
+
+**If ACCESS confirmed (default or provided path):**
+- Continue to catalog search workflow ↓
+
+### User-Suggested Catalog Search (Q3)
+
+**Before automatic keyword search**, ask user:
+
+**Q3**: "Do you think there's an existing catalog that could be a good base for this workshop/demo?"
+
+**Options:**
+- "Yes, I know of one" → Continue to Q3a
+- "No" or "Not sure" → Skip to keyword recommendations
+
+**If user answers "Yes":**
+
+**Q3a**: "What's the catalog display name or slug?"
+
+**Examples:**
+- Display name: "Agentic AI on OpenShift", "OpenShift Pipelines Workshop"
+- Catalog slug: "agentic-ai-openshift", "ocp-pipelines-workshop"
+
+### Display Name Search Specification
+
+**Search algorithm** when user provides catalog suggestion:
+
+1. **Search locations:**
+   - `__meta__.catalog.display_name` field in `common.yaml` (partial match, case-insensitive)
+   - Catalog directory slug in `agd_v2/` (partial match)
+   - `__meta__.catalog.keywords` array (exact keyword match)
+   - `__meta__.catalog.category` field (partial match)
+
+2. **Scoring system:**
+   - Display name match: **50 points**
+   - Catalog slug match: **40 points**
+   - Keyword match: **10 points each**
+   - Category match: **5 points**
+
+3. **Return top 5 results** sorted by score descending
+
+4. **Show for each result:**
+   - Display name and score
+   - Catalog slug
+   - Category (Workshops, Demos, etc.)
+   - Multi-user: Yes/No (and user range if applicable)
+   - Infrastructure type (CNV, SNO, AWS)
+   - Key workloads (first 5)
+   - OpenShift version requirement
+   - Path (e.g., agd_v2/catalog-slug)
+
+5. **User options:**
+   - Use catalog #X as-is → Extract UserInfo, go to Step 3
+   - Create new catalog based on #X → Copy structure, continue to creation workflow
+   - See details for catalog #Y → Show full workload list
+   - Go back to keyword search → Fallback to keyword recommendations
+
+**If no results found:**
+```
+No catalogs found matching "{{ user_input }}".
+
+Try:
+- Different spelling or keywords
+- Catalog slug instead of display name
+- Let me search by technology keywords from your workshop/demo plan
+
+Search again or proceed to keyword recommendations? [Search again/Keywords]
+```
+
+### Keyword-Based Catalog Recommendations (Fallback)
+
+**When triggered:**
+- User answered "No/Not sure" to Q3
+- User-suggested search found no results
+- User chose "Go back to keyword search"
+
+**Algorithm:**
+1. Extract technology keywords from Step 2 (overall story planning)
+   - Examples: AI, pipelines, GitOps, platform value, automation
+2. Search catalog display names and slugs in `agd_v2/`
+3. Analyze workload lists in `common.yaml`
+4. Score by relevance to workshop/demo tech stack
+5. Show top 3-5 matches
+
+**Show for each:**
+- Display name and match score (with star rating)
+- Multi-user support
+- Category
+- Key workloads
+- Infrastructure type
+- Best use case description
+
+**Options:**
+- Use one of these catalogs: [Enter 1, 2, or 3]
+- View workloads in detail: [Enter catalog name]
+- Create new catalog instead: [Enter 'new']
+- Skip AgV for now: [Enter 'skip']
+
+### Multi-user vs Dedicated Rules
+
+**Default recommendations:**
+
+**Labs** (`/lab-module`):
+- **Recommend: Multi-user**
+- Rationale: Hands-on workshops with 5-50 attendees, cost-effective, one cluster with multiple user accounts (user1...userN)
+- Infrastructure: CNV with autoscaling
+- Authentication: htpasswd for multi-user
+
+**Demos** (`/demo-module`):
+- **Recommend: Dedicated**
+- Rationale: Presenter-led demonstrations, executive/sales demos, consistent experience, single presenter control
+- Infrastructure: CNV or AWS (if GPU)
+- Authentication: Keycloak for demos
+
+**Special Cases (Always Dedicated):**
+- Non-OpenShift workloads (VMs, edge, Windows)
+- GPU-accelerated workloads
+- Executive demos (C-level, pre-sales briefings)
+- Single deep-dive scenarios
+
+### Infrastructure Selection Rules
+
+**CNV (Container-Native Virtualization)** - DEFAULT for most labs/demos:
+- ✓ Fast provisioning (10-15 mins)
+- ✓ Cost-effective
+- ✓ Supports multi-user (up to 64Gi/32 cores per worker)
+- ✓ Best for: Standard OpenShift workloads
+- ✓ Autoscaling support
+- **When to use:** Default choice for OpenShift-based labs and demos
+
+**SNO (Single Node OpenShift)**:
+- ✓ Faster provisioning (5-10 mins)
+- ✓ Lightweight workloads
+- ✓ Single-user scenarios
+- ✓ Edge computing demos
+- **When to use:** Quick platform overviews, edge scenarios, lightweight demos
+
+**AWS (Cloud-Specific)**:
+- ✓ GPU acceleration (NVIDIA, g6.4xlarge instances)
+- ✓ Large memory requirements (>128Gi)
+- ✓ Cloud-native service integration (S3, ELB, etc.)
+- ⚠️ Slower provisioning (30-45 mins)
+- ⚠️ Higher cost - reserve for GPU needs
+- **When to use:** AI/ML workloads requiring GPU, large memory footprint, cloud services
+
+### Collection Recommendation Mappings
+
+**Always include:**
+- `agnosticd.core_workloads` - Authentication (htpasswd for multi-user, Keycloak for demos), base OpenShift capabilities
+
+**AI/ML keywords** (ai, ml, openshift-ai, models, llm, rag):
+- `agnosticd.ai_workloads` - OpenShift AI operator, GPU operator, OLS (OpenShift Lightspeed)
+- `rhpds.litellm_virtual_keys` (optional) - LiteLLM proxy for model access, virtual API key management
+
+**DevOps/GitOps keywords** (pipeline, gitops, tekton, argo):
+- Core workloads already include:
+  - `ocp4_workload_pipelines` (OpenShift Pipelines / Tekton)
+  - `ocp4_workload_openshift_gitops` (Argo CD)
+  - `ocp4_workload_gitea_operator` (Git server for labs)
+
+**Workshop/Demo Content Delivery:**
+- `agnosticd.showroom` - Workshop content platform, terminal integration, Know/Show structure support (for demos), multi-user UI
+
+### Git Workflow Requirements (CRITICAL)
+
+**Pre-creation steps** (REQUIRED before creating catalog files):
+
+1. **Navigate to AgnosticV repo:**
+   ```bash
+   cd ~/work/code/agnosticv
+   ```
+
+2. **Switch to main branch:**
+   ```bash
+   git checkout main
+   ```
+
+3. **Pull latest changes:**
+   ```bash
+   git pull origin main
+   ```
+
+4. **Create new branch:**
+   ```bash
+   git checkout -b {{ catalog_slug }}
+   ```
+
+**Branch Naming Convention** (CRITICAL):
+
+**Pattern:** `<catalog-slug>` or `<catalog-slug>-<variant>`
+
+**IMPORTANT:** NO "feature/" prefix per AgV convention
+
+**Examples:**
+- ✓ `ocp-pipelines-workshop`
+- ✓ `agentic-ai-summit-2025`
+- ✓ `openshift-ai-gpu-aws`
+- ✗ `feature/ocp-pipelines-workshop` (DON'T USE)
+- ✗ `feature/ai-demo` (DON'T USE)
+
+**Validation:**
+- Lowercase only
+- Hyphens for word separation
+- No underscores, no slashes (except directory separator)
+- Descriptive and matches catalog slug
+
+**Post-creation steps:**
+
+1. **Review changes:**
+   ```bash
+   git status
+   git diff
+   ```
+
+2. **Add catalog files:**
+   ```bash
+   git add agd_v2/{{ catalog_slug }}/
+   ```
+
+3. **Commit with descriptive message:**
+   ```bash
+   git commit -m "Add {{ catalog_display_name }} catalog
+
+   - Multi-user: {{ multiuser }}
+   - Infrastructure: {{ infra_type }}
+   - Collections: {{ collections_list }}
+   - Target: {{ workshop_type }}"
+   ```
+
+4. **Push branch:**
+   ```bash
+   git push -u origin {{ catalog_slug }}
+   ```
+
+5. **Next steps guidance:**
+   - Test locally: `agnosticv_cli --config agd_v2/{{ catalog_slug }}/dev.yaml`
+   - Open PR when ready for production deployment
+   - Tag RHDP developers for review: @psrivast @tyrell @juliano
+
+### AgV Directory Selection
+
+**Recommended directories:**
+
+1. **agd_v2/** - DEFAULT, most workshops/demos
+2. **enterprise/** - Red Hat internal only
+3. **summit-2025/** - Event-specific, time-bound
+4. **ansiblebu/** - Ansible Automation Platform focus
+
+**Ask user:** "Which directory? [1-4 or custom path]"
+
+**Suggested path:** `agd_v2/{{ suggested_slug }}`
+
+### AgnosticD v2 Pattern Enforcement
+
+**Rule:** Creation workflow generates **agd_v2 patterns ONLY**
+
+**What this means:**
+- Use modern AgV includes (#include statements)
+- Use component-based structure (cluster, workloads, metadata)
+- Use `__meta__.catalog` section for display name, keywords, category
+- Use `requirements.collections` for explicit collection dependencies
+- Generate `common.yaml`, `description.adoc`, `dev.yaml` only
+
+**Can still READ AgDv1 catalogs:**
+- For UserInfo variable extraction
+- For reference when user suggests existing catalog
+- But **never generate AgDv1 patterns** for new configs
+
+### Config File Generation
+
+**Files to create** in `agd_v2/{{ catalog_slug }}/`:
+
+1. **common.yaml** - Main configuration
+   - AgnosticV includes (#include statements)
+   - Cluster configuration (CNV pools, SNO, or AWS)
+   - Requirements (collections list)
+   - Workload list with variables
+   - Authentication setup (htpasswd multi-user or Keycloak)
+   - Showroom integration (if selected)
+   - Metadata (`__meta__.catalog` section with display_name, keywords, category)
+
+2. **description.adoc** - Catalog description
+   - Workshop/demo title
+   - Brief description
+   - Multi-user information (if applicable)
+   - Showroom link (if applicable)
+
+3. **dev.yaml** - Development overrides
+   - Purpose: development
+   - SCM ref override for testing
+
+### UserInfo Variable Extraction
+
+**When user selects existing catalog:**
+
+1. **Read catalog configuration:**
+   - Location: `~/work/code/agnosticv/agd_v2/{{ catalog_slug }}/common.yaml`
+   - Parse workload list
+
+2. **Identify workload roles:**
+   - AgnosticD v2: `~/work/code/agnosticd-v2/`
+   - AgnosticD v1: `~/work/code/agnosticd/` (legacy)
+   - Read workload roles referenced in common.yaml
+
+3. **Extract `agnosticd_user_info` variables:**
+   - Search for `agnosticd_user_info` tasks in workload roles
+   - Extract variables from `data:` sections
+   - Map to Showroom attributes
+
+**Common variables:**
+- `openshift_console_url` → `{openshift_console_url}`
+- `openshift_api_url` → `{openshift_api_url}`
+- `user_name` → `{user}`
+- `user_password` → `{password}`
+- `bastion_public_hostname` → `{bastion_public_hostname}`
+- Custom workload-specific variables
+
+**Result:** Use these as Showroom attributes in generated lab/demo content
+
+### Summary and Transition
+
+**After AgV assistance completes:**
+
+```
+✓ AgV Configuration Complete
+
+**Selected catalog:** {{ catalog_name }}
+
+**Next:**
+- I'll extract UserInfo variables from this catalog's workloads
+- Use these variables as Showroom attributes in your workshop/demo modules
+- Example variables available:
+  - {openshift_console_url}
+  - {user}, {password}
+  - {openshift_api_url}
+  - [workload-specific variables]
+
+→ Proceeding to Step 3: Module-Specific Details
+```
+
+---
+
 ## Skill-Specific Rules
 
 ### `/lab-module` - Workshop Module Generator
