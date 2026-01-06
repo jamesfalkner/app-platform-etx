@@ -97,19 +97,17 @@ include::partial$_attributes.adoc[]
 
 ### 4. Image Path Conventions (REQUIRED)
 
-**Rule**: Strict path conventions for all images.
+**Rule**: All images go directly in the assets directory.
 
-**Path**: `content/modules/ROOT/images/<module-slug>/`
+**Path**: `content/modules/ROOT/assets/`
 
 **Example**:
 - Module: `module-01-pipelines-intro.adoc`
-- Images: `content/modules/ROOT/images/pipelines-intro/`
-
-**NOT**: `assets/images/` or `images/` at root
+- Screenshot: `content/modules/ROOT/assets/pipeline-execution-1.png`
 
 **AsciiDoc Syntax** (REQUIRED):
 ```asciidoc
-image::pipelines-intro/pipeline-execution-1.png[Tekton pipeline showing three tasks executing in sequence,width=700,title="Pipeline Execution in Progress"]
+image::pipeline-execution-1.png[Tekton pipeline showing three tasks executing in sequence,width=700,title="Pipeline Execution in Progress"]
 ```
 
 **Required for every image**:
@@ -121,15 +119,15 @@ image::pipelines-intro/pipeline-execution-1.png[Tekton pipeline showing three ta
 If image doesn't exist yet:
 ```asciidoc
 // TODO: Add screenshot
-image::pipelines-intro/create-task-screenshot.png[OpenShift console showing task creation form,width=600,title="Creating a Tekton Task"]
+image::create-task-screenshot.png[OpenShift console showing task creation form,width=600,title="Creating a Tekton Task"]
 ```
 
 **Assets Needed List**:
 ```asciidoc
 == Assets Needed
 
-. `pipeline-execution-1.png` - Screenshot of pipeline running in OpenShift console
-. `task-definition.png` - YAML editor showing task definition
+. `content/modules/ROOT/assets/pipeline-execution-1.png` - Screenshot of pipeline running in OpenShift console
+. `content/modules/ROOT/assets/task-definition.png` - YAML editor showing task definition
 ```
 
 **Why**: Accessibility, organization, maintainability.
