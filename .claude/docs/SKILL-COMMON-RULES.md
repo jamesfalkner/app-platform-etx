@@ -253,6 +253,8 @@ Both lab and demo skills provide intelligent AgnosticV (AgV) configuration assis
 
 **IMPORTANT**: This is OPTIONAL assistance - always ask first!
 
+**CRITICAL**: If user chooses option 3 or 4 (YES to AgV help), you MUST complete the ENTIRE AgV catalog setup (find existing OR create new) BEFORE proceeding to Step 3 (module creation). The module content will use variables from the AgV catalog.
+
 ### Initial Opt-In Question
 
 **First, ask if user needs AgV help:**
@@ -528,10 +530,18 @@ Search again or proceed to keyword recommendations? [Search again/Keywords]
   - `ocp4_workload_openshift_gitops` (Argo CD)
   - `ocp4_workload_gitea_operator` (Git server for labs)
 
-**Workshop/Demo Content Delivery:**
-- `agnosticd.showroom.ocp4_workload_showroom` - For OCP-based workshops/demos (config: openshift-workloads or openshift-cluster)
-- `agnosticd.showroom.showroom_deployer` - For VM-based workshops/demos (config: cloud-vms-base)
-- Features: Terminal integration, Know/Show structure support (for demos), multi-user UI
+**Workshop/Demo Content Delivery (REQUIRED - Auto-selected based on infrastructure):**
+
+**For OCP-based** (`config: openshift-workloads` or `config: openshift-cluster`):
+- `agnosticd.showroom.ocp4_workload_showroom_ocp_integration` - OCP integration layer
+- `agnosticd.showroom.ocp4_workload_showroom` - Showroom platform on OCP
+- Features: Terminal integration, OCP cluster access, Know/Show structure support
+
+**For VM-based** (`config: cloud-vms-base`):
+- `agnosticd.showroom.vm_workload_showroom` - Showroom platform on bastion
+- Features: Terminal integration on bastion, VM access, Know/Show structure support
+
+**IMPORTANT**: Showroom workload is automatically selected based on `config` type. Do NOT ask user - detect from infrastructure choice.
 
 ### Workload Selection Assistant
 
