@@ -94,24 +94,33 @@ etc.
 
 ---
 
-### Step 1: Determine Context (First Module vs Continuation)
+### Step 1: Determine Context (New Lab vs Existing Lab)
 
 **CRITICAL: DO NOT read any files or make assumptions before asking this question!**
 
 **First, ask the user**:
 
 ```
-Q: Is this the first module of a new lab, or continuing an existing lab?
+Q: Are you creating a new lab or adding to an existing lab?
 
 Options:
-1. First module of a NEW lab
-2. Continuing an EXISTING lab
+1. Creating a NEW lab (I'll generate: index.adoc → overview → details → module-01)
+2. Adding to an EXISTING lab (I'll generate: module-XX only)
 3. Something else (please describe)
 
 Your choice? [1/2/3]
 ```
 
 **ONLY AFTER user answers, proceed based on their response.**
+
+**If option 1 (NEW lab)**:
+- Generate ALL workshop files: index.adoc, 01-overview.adoc, 02-details.adoc, module-01-*.adoc
+- Proceed to Step 2 (Plan Overall Lab Story)
+
+**If option 2 (EXISTING lab)**:
+- Generate ONLY module-XX-*.adoc
+- Skip Step 2 (already have overall story)
+- Ask for previous module path or story recap
 
 **If continuing existing lab**:
 - Option 1: Provide path to previous module (I'll read and auto-detect story)
