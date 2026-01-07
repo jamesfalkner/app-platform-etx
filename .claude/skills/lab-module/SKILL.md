@@ -44,7 +44,20 @@ See SKILL-COMMON-RULES.md for complete details.
 - Do NOT ask questions from multiple steps together
 - Do NOT skip workflows based on incomplete answers
 
-### 2. Manage Output Tokens
+### 2. File Generation Order (First Module ONLY)
+
+**If this is the FIRST module of a NEW lab, you MUST generate files in this EXACT order:**
+
+1. **index.adoc** - Learner landing page (NOT facilitator guide)
+2. **01-overview.adoc** - Business scenario and learning objectives
+3. **02-details.adoc** - Technical requirements and setup
+4. **module-01-*.adoc** - First hands-on module
+
+**NEVER skip index/overview/details for first module!**
+
+**If continuing existing lab**: Only generate module-XX-*.adoc (skip index/overview/details)
+
+### 3. Manage Output Tokens
 
 - **NEVER output full module content** - Use Write tool to create files
 - **Show brief confirmations only** - "✅ Created: filename (X lines)"
