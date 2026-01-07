@@ -566,8 +566,12 @@ Based on your references, I'll:
 **CRITICAL: I MUST read all these files BEFORE generating content to ensure output meets all standards.**
 
 **Templates to read:**
-- `content/modules/ROOT/pages/workshop/templates/03-module-01.adoc`
-- `content/modules/ROOT/pages/workshop/example/03-module-01.adoc`
+- `content/modules/ROOT/pages/workshop/templates/00-index-learner.adoc` - Learner-facing index template
+- `content/modules/ROOT/pages/workshop/templates/03-module-01.adoc` - Module template
+- `content/modules/ROOT/pages/workshop/example/00-index.adoc` - Example index (but write for LEARNERS, not facilitators)
+- `content/modules/ROOT/pages/workshop/example/01-overview.adoc` - Example overview
+- `content/modules/ROOT/pages/workshop/example/02-details.adoc` - Example details
+- `content/modules/ROOT/pages/workshop/example/03-module-01.adoc` - Example module
 
 **Verification criteria to read and apply DURING generation:**
 1. `.claude/prompts/enhanced_verification_workshop.txt` - Complete quality checklist
@@ -583,7 +587,85 @@ Based on your references, I'll:
 - Generate content that ALREADY passes all checks
 - No separate validation step needed - content is validated during creation
 
-### Step 8: Generate Module (Using Verification Criteria)
+### Step 8: Generate Files (Using Verification Criteria)
+
+**CRITICAL: If this is the FIRST module of a NEW lab, generate files in this order:**
+
+#### Step 8.1: Generate index.adoc (First Module Only)
+
+**Purpose**: Learner-facing landing page - NOT a facilitator guide
+
+**Content**:
+```asciidoc
+= {{ Workshop Title }}
+
+Welcome to the {{ workshop name }} workshop!
+
+== What you'll learn
+
+In this workshop, you will:
+
+* {{ Learning objective 1 }}
+* {{ Learning objective 2 }}
+* {{ Learning objective 3 }}
+* {{ Learning objective 4 }}
+
+== Who this is for
+
+This workshop is designed for {{ target audience }} who want to {{ main goal }}.
+
+== Prerequisites
+
+Before starting this workshop, you should have:
+
+* {{ Prerequisite 1 }}
+* {{ Prerequisite 2 }}
+* Access to {{ environment/tools }}
+
+== Workshop environment
+
+{{ Brief description of the lab environment }}
+
+* OpenShift cluster: {openshift_console_url}
+* Login credentials will be provided
+
+== Let's get started!
+
+Click on the next section to begin the workshop.
+```
+
+**What NOT to do**:
+- ❌ Don't copy facilitator guide template from workshop/templates/00-index.adoc
+- ❌ Don't include facilitator instructions
+- ❌ Don't write "This guide helps workshop facilitators..."
+
+**What TO do**:
+- ✅ Write for LEARNERS, not facilitators
+- ✅ Simple welcome and what they'll learn
+- ✅ Prerequisites and environment info
+- ✅ Encouragement to get started
+
+#### Step 8.2: Generate 01-overview.adoc (First Module Only)
+
+**Purpose**: Business scenario and learning objectives
+
+**Content**: See workshop/example/01-overview.adoc for pattern
+- Business scenario/story
+- Detailed learning objectives
+- Expected outcomes
+- Estimated time
+
+#### Step 8.3: Generate 02-details.adoc (First Module Only)
+
+**Purpose**: Technical requirements and setup
+
+**Content**: See workshop/example/02-details.adoc for pattern
+- Module timing breakdown
+- Technical requirements
+- Environment details
+- Authors/contact
+
+#### Step 8.4: Generate module-01-*.adoc (Always)
 
 I'll create a complete module with:
 
@@ -751,16 +833,26 @@ I'll automatically update `content/modules/ROOT/nav.adoc` - this is REQUIRED for
 4. **Never output entire module content** - Files are already written
 5. **Keep total output under 5000 tokens** - Brief summaries only
 
-**Output Format**:
+**Output Format for FIRST module**:
+
+```
+✅ Workshop Generation Complete
+
+**Files Created**:
+- content/modules/ROOT/pages/index.adoc (32 lines) - Learner landing page
+- content/modules/ROOT/pages/01-overview.adoc (85 lines) - Business scenario
+- content/modules/ROOT/pages/02-details.adoc (67 lines) - Technical details
+- content/modules/ROOT/pages/module-01-intro.adoc (234 lines) - First hands-on module
+- content/modules/ROOT/nav.adoc (updated)
+```
+
+**Output Format for CONTINUATION modules**:
 
 ```
 ✅ Module Generation Complete
 
 **Files Created**:
-- content/modules/ROOT/pages/index.adoc (45 lines)
-- content/modules/ROOT/pages/01-overview.adoc (82 lines)
-- content/modules/ROOT/pages/02-details.adoc (65 lines)
-- content/modules/ROOT/pages/module-01-intro.adoc (234 lines)
+- content/modules/ROOT/pages/module-02-advanced.adoc (198 lines)
 - content/modules/ROOT/nav.adoc (updated)
 
 **Module Structure**:
