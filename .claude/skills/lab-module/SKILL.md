@@ -51,11 +51,24 @@ See SKILL-COMMON-RULES.md for complete details.
 1. **index.adoc** - Learner landing page (NOT facilitator guide)
 2. **01-overview.adoc** - Business scenario and learning objectives
 3. **02-details.adoc** - Technical requirements and setup
-4. **module-01-*.adoc** - First hands-on module
+4. **03-module-01-*.adoc** - First hands-on module
 
 **NEVER skip index/overview/details for first module!**
 
-**If continuing existing lab**: Only generate module-XX-*.adoc (skip index/overview/details)
+**File naming convention**:
+- index.adoc (no number prefix)
+- 01-overview.adoc
+- 02-details.adoc
+- 03-module-01-*.adoc
+- 04-module-02-*.adoc
+- 05-module-03-*.adoc
+- etc.
+
+**If continuing existing lab**:
+- Detect next file number from existing modules
+- Generate: 0X-module-YY-*.adoc (where X = next sequential file number)
+- Example: If existing has 03-module-01, 04-module-02, next is 05-module-03
+- Skip index/overview/details (already exist)
 
 ### 3. Manage Output Tokens
 
@@ -104,8 +117,8 @@ etc.
 Q: Are you creating a new lab or adding to an existing lab?
 
 Options:
-1. Creating a NEW lab (I'll generate: index.adoc → overview → details → module-01)
-2. Adding to an EXISTING lab (I'll generate: module-XX only)
+1. Creating a NEW lab (I'll generate: index.adoc → 01-overview → 02-details → 03-module-01)
+2. Adding to an EXISTING lab (I'll detect next number and generate: 0X-module-YY only)
 3. Something else (please describe)
 
 Your choice? [1/2/3]
@@ -114,11 +127,12 @@ Your choice? [1/2/3]
 **ONLY AFTER user answers, proceed based on their response.**
 
 **If option 1 (NEW lab)**:
-- Generate ALL workshop files: index.adoc, 01-overview.adoc, 02-details.adoc, module-01-*.adoc
+- Generate ALL workshop files: index.adoc, 01-overview.adoc, 02-details.adoc, 03-module-01-*.adoc
 - Proceed to Step 2 (Plan Overall Lab Story)
 
 **If option 2 (EXISTING lab)**:
-- Generate ONLY module-XX-*.adoc
+- Detect next file number from existing modules
+- Generate ONLY next module: 0X-module-YY-*.adoc
 - Skip Step 2 (already have overall story)
 - Ask for previous module path or story recap
 
@@ -373,9 +387,10 @@ Your choice? [1/2/3]
 Now for this specific module:
 
 1. **Module file name and numbering**:
-   - **Naming convention**: `module-0X-<slug>.adoc` (e.g., `module-01-pipelines-intro.adoc`)
+   - **Naming convention**: `0X-module-YY-<slug>.adoc` (e.g., `03-module-01-pipelines-intro.adoc`)
    - **Title convention**: `= Module X: <Title>` (e.g., `= Module 1: Pipeline Fundamentals`)
    - Files go in `content/modules/ROOT/pages/`
+   - **Number prefix**: 03 for first module, 04 for second, etc. (after 01-overview, 02-details)
    - **Conflict detection**: If file exists, suggest next available number
    - **Warning**: Don't overwrite existing modules without confirmation
 
@@ -687,7 +702,7 @@ Click on the next section to begin the workshop.
 - Environment details
 - Authors/contact
 
-#### Step 8.4: Generate module-01-*.adoc (Always)
+#### Step 8.4: Generate 03-module-01-*.adoc (Always)
 
 I'll create a complete module with:
 
@@ -828,13 +843,13 @@ I'll automatically update `content/modules/ROOT/nav.adoc` - this is REQUIRED for
 ```asciidoc
 * xref:index.adoc[Home]
 
-* xref:module-01-intro.adoc[Module 1: Introduction]
-** xref:module-01-intro.adoc#exercise-1[Exercise 1: Setup]
-** xref:module-01-intro.adoc#exercise-2[Exercise 2: First Pipeline]
+* xref:03-module-01-intro.adoc[Module 1: Introduction]
+** xref:03-module-01-intro.adoc#exercise-1[Exercise 1: Setup]
+** xref:03-module-01-intro.adoc#exercise-2[Exercise 2: First Pipeline]
 
-* xref:module-02-advanced.adoc[Module 2: Advanced Topics]  ← NEW MODULE
-** xref:module-02-advanced.adoc#exercise-1[Exercise 1: Git Integration]
-** xref:module-02-advanced.adoc#exercise-2[Exercise 2: Triggers]
+* xref:04-module-02-advanced.adoc[Module 2: Advanced Topics]  ← NEW MODULE
+** xref:04-module-02-advanced.adoc#exercise-1[Exercise 1: Git Integration]
+** xref:04-module-02-advanced.adoc#exercise-2[Exercise 2: Triggers]
 ```
 
 **Conflict handling**:
@@ -864,7 +879,7 @@ I'll automatically update `content/modules/ROOT/nav.adoc` - this is REQUIRED for
 - content/modules/ROOT/pages/index.adoc (32 lines) - Learner landing page
 - content/modules/ROOT/pages/01-overview.adoc (85 lines) - Business scenario
 - content/modules/ROOT/pages/02-details.adoc (67 lines) - Technical details
-- content/modules/ROOT/pages/module-01-intro.adoc (234 lines) - First hands-on module
+- content/modules/ROOT/pages/03-module-01-intro.adoc (234 lines) - First hands-on module
 - content/modules/ROOT/nav.adoc (updated)
 ```
 
@@ -874,7 +889,7 @@ I'll automatically update `content/modules/ROOT/nav.adoc` - this is REQUIRED for
 ✅ Module Generation Complete
 
 **Files Created**:
-- content/modules/ROOT/pages/module-02-advanced.adoc (198 lines)
+- content/modules/ROOT/pages/04-module-02-advanced.adoc (198 lines)
 - content/modules/ROOT/nav.adoc (updated)
 
 **Module Structure**:
@@ -889,7 +904,7 @@ I'll automatically update `content/modules/ROOT/nav.adoc` - this is REQUIRED for
 - Dynamic attributes used: {openshift_console_url}, {user}, {password}
 
 **Next Steps**:
-1. Review module: content/modules/ROOT/pages/module-01-intro.adoc
+1. Review module: content/modules/ROOT/pages/04-module-02-advanced.adoc
 2. Capture screenshots for placeholder images
 3. Test commands in your environment
 4. Run: verify-content to check quality
