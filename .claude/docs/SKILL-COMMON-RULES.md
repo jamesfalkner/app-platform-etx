@@ -712,18 +712,39 @@ ocp4_workload_showroom_content_git_repo_ref: main
    - Show options for each setting
 
 5. **Generate files using reference as template:**
-   - Start with reference `common.yaml` structure
-   - Replace UUID, display_name, catalog slug
-   - Update showroom repo URL
-   - Modify workloads if user customized
-   - Keep all other structure (includes, components, parameters) from reference
-   - Copy `dev.yaml` unchanged (or ask for customizations)
+   - **CRITICAL: Create EXACT COPY of reference catalog**
+   - **ONLY modify these fields** (unless user explicitly requests other changes):
+     1. UUID → New generated UUID
+     2. `__meta__.catalog.display_name` → User's workshop/demo name
+     3. Catalog directory slug → Based on display name
+     4. `__meta__.catalog.showroom` → User's showroom repo URL
+   - **KEEP EVERYTHING ELSE EXACTLY AS-IS:**
+     - All workloads (unless user says "remove X" or "add Y")
+     - All workload variables and configurations
+     - All includes (#include directives)
+     - All components
+     - All parameters
+     - Infrastructure configuration
+     - Multi-user settings
+     - Category
+     - `dev.yaml` → Copy exactly from reference
+     - `description.adoc` → Copy with updated display name
+
+**CRITICAL: DO NOT "intelligently" modify workloads or settings**:
+- ❌ Don't remove workloads you think aren't needed
+- ❌ Don't add workloads you think would be helpful
+- ❌ Don't change infrastructure settings
+- ❌ Don't modify multi-user configuration
+- ❌ Don't change workload variables
+- ✅ ONLY modify if user explicitly says: "remove this" or "change that"
 
 **Why this matters:**
 - Reference catalogs have **proven working structure**
-- Prevents schema validation errors (like invalid `showroom` in `__meta__`)
-- Preserves best practices from reference
-- Only changes what's truly different
+- Prevents schema validation errors
+- Preserves all dependencies and integrations
+- Reference may have non-obvious workload dependencies
+- User chose this reference because it works - don't break it!
+- Only changes what's truly different (UUID, name, repo URL)
 
 **If user chooses "See next":**
 - Show next catalog match from search results
