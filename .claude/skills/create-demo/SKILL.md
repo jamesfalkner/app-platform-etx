@@ -192,7 +192,7 @@ Proceeding to: Step 1 (Determine Context)
 
 ---
 
-### Step 1: Determine Context (First Module vs Continuation)
+### Step 1: Determine Context (New Demo vs Continuation)
 
 **SKIP THIS STEP IF**:
 - User provided `--new` flag in arguments (already know: NEW demo)
@@ -203,10 +203,10 @@ Proceeding to: Step 1 (Determine Context)
 **First, ask the user**:
 
 ```
-Q: Is this the first module of a new demo, or continuing an existing demo?
+Q: Are you creating a new demo or continuing an existing demo?
 
 Options:
-1. First module of a NEW demo
+1. Creating a NEW demo
 2. Continuing an EXISTING demo
 3. Something else (please describe)
 
@@ -218,9 +218,9 @@ Your choice? [1/2/3]
 **If continuing existing demo**:
 - Provide path to previous module (I'll read and auto-detect the story)
 
-### Step 2: Plan Overall Demo Story (if first module)
+### Step 2: Plan Overall Demo Story (if new demo)
 
-If this is the first module, I'll gather the big picture:
+If this is a new demo, I'll gather the big picture:
 
 **IMPORTANT**: Ask these as **open-ended questions** where users type their answers. Do NOT provide multiple choice options.
 
@@ -1100,8 +1100,8 @@ Skill: Excellent! Since this is a new demo, let me gather the overall story firs
 
 **Overall Demo Planning:**
 
-Q: Is this the first module or continuing existing demo?
-A: First module of a new demo
+Q: Are you creating a new demo or continuing an existing demo?
+A: Creating a new demo
 
 Q: What's the overall message?
 A: "Show how OpenShift reduces time-to-market and operational costs for enterprises"
@@ -1178,8 +1178,8 @@ User: Create demo Module 1 for OpenShift using:
       https://docs.openshift.com/container-platform/4.14/
 
 Skill: I'll create that demo module. Let me ask questions...
-       [asks if first module or continuing]
-       [if first: asks overall story questions]
+       [asks if new demo or continuing]
+       [if new demo: asks overall story questions]
        [asks module-specific questions]
        [generates module with business story]
        [validates with agents]
