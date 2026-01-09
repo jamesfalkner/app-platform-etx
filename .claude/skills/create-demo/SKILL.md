@@ -857,6 +857,59 @@ I'll automatically add the module to `content/modules/ROOT/nav.adoc` - this is R
 - ✅ Give clear next steps for presenters
 - ✅ Keep output concise (under 5000 tokens)
 
+### Step 12: Offer to Generate Conclusion Module (Optional)
+
+**After delivering all demo modules, ask if user wants a conclusion module:**
+
+```
+Q: Would you like me to generate a conclusion module to wrap up the demo?
+
+This adds a final module that:
+- Summarizes key business value demonstrated
+- Recaps ROI and competitive advantages
+- Provides clear call-to-action for audience
+- Lists next steps (workshops, POC, technical sessions)
+
+Options:
+1. Yes, generate conclusion module
+2. No, I'll create it later
+3. No, demo is complete without it
+
+Your choice? [1/2/3]
+```
+
+**If user chooses option 1 (Yes)**:
+
+1. Read conclusion template: `content/modules/ROOT/pages/demo/99-conclusion.adoc`
+2. Detect highest module number (e.g., if last module is 05-module-03, conclusion will be 06-conclusion.adoc)
+3. Generate conclusion module with Know/Show structure:
+   - File: `0X-conclusion.adoc` (where X = next sequential number)
+   - **Know**: Business impact recap, ROI summary, competitive advantages
+   - **Show**: Demo capabilities recap, technical highlights
+   - Next steps: Workshops, POC, deep dives
+   - Call to action for decision makers and technical teams
+   - Q&A guidance with common questions
+4. Update nav.adoc with conclusion entry at the end
+5. Provide brief confirmation
+
+**Conclusion Module Naming**:
+- File: `0X-conclusion.adoc` (sequential number, e.g., 06-conclusion.adoc)
+- Title: `= Demo Conclusion and Next Steps`
+- Nav entry: `* xref:0X-conclusion.adoc[Conclusion and Next Steps]`
+
+**Content to Include**:
+- ✅ **Know**: Business impact recap, ROI metrics, competitive advantages
+- ✅ **Show**: Demo capabilities summary, technical highlights
+- ✅ "Next Steps for Your Organization" - Evaluation path, pilot, production
+- ✅ "Resources" - Documentation, workshops, community
+- ✅ "Call to Action" - Tailored for technical teams vs decision makers
+- ✅ "Q&A Guidance" - Common questions with suggested answers
+- ✅ "Thank You" - Contact information and closing
+
+**If user chooses option 2 or 3**:
+- Skip conclusion generation
+- Note in summary that user can add conclusion later using the template
+
 ## Example Usage
 
 ### Example 1: Create First Demo Module with Overall Story Planning
