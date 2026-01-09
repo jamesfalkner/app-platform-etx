@@ -331,17 +331,16 @@ Quick question about infrastructure setup! 🏗️
 Do you need help configuring AgnosticV (the RHDP provisioning system)?
 
 ⚠️  Heads up: This is for RHDP developers/advanced users only.
-   Most content creators can skip this - choose option 1 or 2.
+   Most content creators should skip this.
 
-1. ✅ Already set up (skip to content creation)
-2. 👍 I'll handle it myself (skip to content creation)
-3. 🆘 Yes, help me create a new catalog
-4. ❓ What's AgnosticV? (explain it to me)
+1. ⏭️  Skip this (I'll handle it or it's already set up)
+2. 🆘 Yes, help me create a new catalog
+3. ❓ What's AgnosticV? (explain it to me)
 
-What's your situation? [1/2/3/4]
+What's your situation? [1/2/3]
 ```
 
-**If user chooses option 3 (YES to AgV help):**
+**If user chooses option 2 (YES to AgV help):**
 
 **Step A: Get AgV Directory Path (REQUIRED)**
 
@@ -492,7 +491,7 @@ Your choice? [1/2/3]
 
 **CRITICAL**: Do NOT proceed to Step 3 until AgV workflow is complete or user confirms skip.
 
-**If user chooses option 1 or 2 (NO AgV help):**
+**If user chooses option 1 (NO AgV help):**
 - Use placeholder attributes in demo content
 - Proceed directly to Step 3
 
