@@ -216,6 +216,24 @@ What's your situation? [1/2/3]
 
 **ONLY AFTER user answers, proceed based on their response.**
 
+### Step 1.5: Ask for Target Directory (if not provided as argument)
+
+**SKIP THIS STEP IF**: User provided `<directory>` as argument
+
+**Ask the user**:
+```
+Where should I create the demo files?
+
+Default location: content/modules/ROOT/pages/
+
+Press Enter to use default, or type a different path:
+```
+
+**Validation**:
+- If directory doesn't exist, ask: "Directory not found. Create it? [Yes/No]"
+- If Yes, create the directory
+- If No, ask again for directory
+
 **If continuing existing demo**:
 - Provide path to previous module (I'll read and auto-detect the story)
 

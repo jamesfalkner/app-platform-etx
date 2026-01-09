@@ -233,6 +233,24 @@ What's your situation? [1/2/3]
 
 **ONLY AFTER user answers, proceed based on their response.**
 
+### Step 1.5: Ask for Target Directory (if not provided as argument)
+
+**SKIP THIS STEP IF**: User provided `<directory>` as argument
+
+**Ask the user**:
+```
+Where should I create the lab files?
+
+Default location: content/modules/ROOT/pages/
+
+Press Enter to use default, or type a different path:
+```
+
+**Validation**:
+- If directory doesn't exist, ask: "Directory not found. Create it? [Yes/No]"
+- If Yes, create the directory
+- If No, ask again for directory
+
 **If option 1 (NEW lab)**:
 - Generate ALL workshop files: index.adoc, 01-overview.adoc, 02-details.adoc, 03-module-01-*.adoc
 - Proceed to Step 2 (Plan Overall Lab Story)
