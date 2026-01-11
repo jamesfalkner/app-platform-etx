@@ -161,15 +161,23 @@ All new workshops and demos created with `/create-lab` or `/create-demo` will:
 ## Files Changed
 
 ```
-.claude/skills/create-lab/SKILL.md              (+171, -39)
-.claude/skills/create-demo/SKILL.md             (+142, -18)
+.claude/skills/create-lab/SKILL.md              (+216, -39)
+.claude/skills/create-demo/SKILL.md             (+171, -18)
 .claude/prompts/verify_workshop_structure.txt   (+28, -5)
-.claude/prompts/enhanced_verification_workshop.txt (+23, -4)
-.claude/prompts/enhanced_verification_demo.txt  (+20, -3)
-.claude/prompts/verify_accessibility_compliance_workshop.txt (+24, -2)
+.claude/prompts/enhanced_verification_workshop.txt (+44, -4)
+.claude/prompts/enhanced_verification_demo.txt  (+39, -3)
+.claude/prompts/verify_accessibility_compliance_workshop.txt (+45, -2)
+.claude/prompts/verify_accessibility_compliance_demo.txt (+20, -5)
+.claude/CHANGELOG-2026-01-11.md                  (new file)
+CLAUDE-SKILLS-GUIDE.adoc                         (updated)
 ```
 
-**Total:** 6 files changed, 398 insertions(+), 71 deletions(-)
+**Total:** 9 files changed, 788 insertions(+), 93 deletions(-)
+
+**Git Commits:**
+- `ad1130d` - Refactor content creation workflow: optional troubleshooting, mandatory conclusion, consolidated references
+- `1d5da0b` - Add clickable image link validation and update documentation
+- `8723c79` - Add active validation checks for clickable image links
 
 ---
 
@@ -179,5 +187,13 @@ Run `/verify-content` on your workshop or demo to validate:
 - ✅ Conclusion module exists
 - ✅ No References sections in individual modules
 - ✅ All references consolidated in conclusion
-- ✅ External links use `^` caret
+- ✅ External text links use `^` caret (actively scanned)
+- ✅ **External image links use `^` caret** (actively scanned - NEW)
+- ✅ Internal xrefs do NOT use `^` caret (actively scanned)
 - ⚠️  Troubleshooting sections (optional, context-dependent)
+
+**NEW: Active Scanning for Image Links:**
+The verification now actively scans for these patterns and flags errors:
+- `image::file.png[Alt,link=https://example.com]` ❌ Missing ^
+- `link:https://example.com[image:file.png[Alt]]` ❌ Missing ^
+- Shows exact location and correct version in validation output
