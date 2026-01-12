@@ -143,6 +143,8 @@ That's it! Claude will read the skill files and guide you through the workflow.
 * Auto-detects GitHub Pages URL from git remote
 * Pulls author from git config
 * Suggests content based on guide analysis
+* **Validates overview starts with product name** (not "This workshop/demo/lab")
+* **Asks if Lab or Demo** (even if auto-detected)
 * Preview before writing
 
 ---

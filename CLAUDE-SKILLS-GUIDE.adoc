@@ -248,8 +248,10 @@ Cursor automatically executes the full skills from `.claude/skills/` - no extra 
 
 2. **📄 Brief Overview** (2-3 sentences):
    - What is this lab/demo showing?
+   - **CRITICAL**: Must start with main product/technology name (NOT "This workshop/demo/lab")
+   - Never use word "workshop" anywhere
    - What is the intended use?
-   - **Smart feature**: If Showroom detected, suggests overview from content
+   - **Smart feature**: If Showroom detected, suggests overview from content starting with product name
 
 3. **⚠️ Warnings** (optional):
    - GPU requirements, resource limits, etc.
