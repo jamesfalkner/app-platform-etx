@@ -2,7 +2,7 @@
 
 **For**: Content Creators, Workshop Developers, Demo Builders
 **Using**: Claude Code CLI or Cursor IDE
-**Last Updated**: January 11, 2026
+**Last Updated**: January 12, 2026
 
 ---
 
@@ -18,10 +18,11 @@ cd /path/to/showroom-repo
 claude
 
 # Use slash commands
-/create-lab          # Create a workshop module
-/create-demo         # Create a demo module
-/verify-content      # Verify content quality
-/blog-generate       # Convert module to blog post
+/create-lab              # Create a workshop module
+/create-demo             # Create a demo module
+/verify-content          # Verify content quality
+/blog-generate           # Convert module to blog post
+/generate-agv-description # Generate AgnosticV catalog description
 ```
 
 ### Using Cursor IDE
@@ -225,6 +226,105 @@ Cursor automatically executes the full skills from `.claude/skills/` - no extra 
 
 ---
 
+### 5. `/generate-agv-description` - AgnosticV Catalog Description Generator
+
+**What it does**: Creates properly formatted `description.adoc` for AgnosticV catalog entries.
+
+**Usage**:
+```bash
+# Interactive mode (auto-detects current directory)
+/generate-agv-description
+
+# With Showroom path
+/generate-agv-description ~/work/code/showroom-ai-lab
+```
+
+**Interactive Questions**:
+
+1. **📂 Showroom Location** (FIRST):
+   - **Smart feature**: Auto-detects if current directory is a Showroom repo
+   - Extracts module structure, technologies, and agenda from your content
+   - Optional: Can skip if no guide yet
+
+2. **📄 Brief Overview** (2-3 sentences):
+   - What is this lab/demo showing?
+   - What is the intended use?
+   - **Smart feature**: If Showroom detected, suggests overview from content
+
+3. **⚠️ Warnings** (optional):
+   - GPU requirements, resource limits, etc.
+   - Appears after overview on RHDP catalog tile
+
+4. **🔗 Guide Link**:
+   - Link to rendered Showroom guide
+   - **Smart feature**: Infers URL pattern from repo (e.g., `https://rhpds.github.io/showroom-{name}`)
+
+5. **🛠️ Featured Technology**:
+   - Key products/technologies with versions
+   - **Smart feature**: Suggests technologies found in guide content
+   - Examples: OpenShift 4.17, AAP 2.5, PostgreSQL 16
+
+6. **📋 Detailed Overview/Agenda** (optional):
+   - **Smart feature**: Auto-generates from module titles
+   - Module-by-module breakdown
+   - Can edit or skip
+
+7. **✍️ Authors and Contact**:
+   - **Smart feature**: Pulls from `git config user.name`
+   - Slack channel (default: #forum-rhdp-content)
+   - Author's Slack handle
+
+8. **💾 Output Location**:
+   - Current directory
+   - Showroom directory
+   - AgnosticV catalog directory
+
+**What you get**:
+- ✅ Valid AsciiDoc `description.adoc`
+- ✅ 2-3 sentence overview (appears on RHDP catalog tile)
+- ✅ Featured technology list with versions
+- ✅ Optional agenda with module breakdown
+- ✅ Author contact information
+- ✅ Preview before writing
+- ✅ Optional: Commit to git
+
+**Example Output**:
+```asciidoc
+This lab demonstrates building a RAG-based chatbot using Red Hat OpenShift AI
+with LiteMaaS for model serving and vector databases for semantic search.
+Learners will deploy a complete AI application stack and understand the RAG
+pattern for grounding LLMs with custom data.
+
+Intended for self-paced learning and instructor-led workshops.
+
+link:https://rhpds.github.io/showroom-rag-chatbot[Access the rendered lab guide^]
+
+== Featured Technology and Products
+
+* Red Hat OpenShift AI 2.17
+* OpenShift 4.17
+* LiteMaaS (Model as a Service)
+* PostgreSQL 16 with pgvector
+
+== What You Will Learn
+
+* *Module 1:* Deploy vector database with pgvector on OpenShift
+* *Module 2:* Configure LiteMaaS virtual keys for model access
+* *Module 3:* Build RAG pipeline with document ingestion
+* *Module 4:* Deploy chatbot frontend and test queries
+
+== Authors and Contact
+
+*Authors:* Prakhar Srivastava
+
+For questions or issues with this content, please reach out in the
+#forum-rhdp-content Slack channel and tag @psrivast.
+
+NOTE: This is for content questions only. For RHDP platform support, use #forum-rhdp.
+```
+
+---
+
 ## 🎯 Common Workflows
 
 ### Starting a New Workshop
@@ -292,6 +392,43 @@ cd /path/to/showroom-repo
 # 3. Review Know/Show structure
 # Files created with business context + technical steps
 ```
+
+### Generating AgnosticV Catalog Description
+
+```bash
+# 1. Navigate to your Showroom repo
+cd ~/work/code/showroom-ai-ml-lab
+
+# 2. Start skill (auto-detects Showroom content)
+/generate-agv-description
+
+# 3. Follow prompts
+> yes  # Use detected Showroom (current directory)
+> 1  # Auto-generate overview from content
+> [Enter]  # No warnings (or type warning if needed)
+> https://rhpds.github.io/showroom-ai-ml-lab  # Rendered guide URL
+> OpenShift 4.18, OpenShift AI 2.15, Python 3.11  # Technologies
+> 1  # Auto-generate agenda from modules
+> [Enter]  # Accept git config author name
+> #forum-rhdp-content  # Slack channel
+> @psrivast  # Your Slack handle
+> 1  # Save to current directory (or choose AgV catalog)
+
+# 4. Preview and confirm
+> yes  # Looks good!
+
+# 5. Optional: Commit to git
+> yes  # Commit this change
+
+# Result: description.adoc created and ready for AgV catalog
+```
+
+**When to use**:
+- After completing workshop/demo content
+- Before creating AgnosticV catalog PR
+- When updating existing catalog descriptions
+
+**Pro tip**: Run from Showroom directory for maximum auto-detection!
 
 ---
 

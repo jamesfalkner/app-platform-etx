@@ -2,11 +2,61 @@
 
 ## Summary
 
-Critical AsciiDoc formatting fixes to prevent text running together in rendered content. All images now required to be clickable for better user experience.
+- **NEW SKILL**: `/generate-agv-description` - Generate AgnosticV catalog descriptions
+- Critical AsciiDoc formatting fixes to prevent text running together in rendered content
+- All images now required to be clickable for better user experience
 
 ---
 
 ## Key Changes
+
+### 0. NEW SKILL: `/generate-agv-description` (ADDED)
+
+**What It Does**:
+Creates properly formatted `description.adoc` files for AgnosticV catalog entries that appear in the Red Hat Demo Platform UI.
+
+**Smart Features**:
+- Auto-detects Showroom content in current directory
+- Extracts module structure, technologies, and agenda from your content
+- Pulls author info from git config
+- Infers Showroom URL patterns
+- Suggests technologies found in guide content
+- Auto-generates agenda from module titles
+- Preview before writing
+- Optional: Commit to git
+
+**Usage**:
+```bash
+# Navigate to Showroom repo
+cd ~/work/code/showroom-ai-ml-lab
+
+# Run skill
+/generate-agv-description
+
+# Skill auto-detects Showroom and suggests content
+```
+
+**Output Structure**:
+1. Brief overview (2-3 sentences) - appears on RHDP catalog tile
+2. Warnings (optional) - GPU requirements, etc.
+3. Link to rendered Showroom guide
+4. Featured Technology and Products (with versions)
+5. Detailed overview/agenda (optional)
+6. Authors and contact information
+
+**Files Added**:
+- `.claude/skills/generate-agv-description/SKILL.md` (new skill)
+- Updated: `CLAUDE-SKILLS-GUIDE.adoc` (added skill #5 documentation)
+
+**Integration with Workflow**:
+1. `/create-lab` or `/create-demo` - Create content
+2. `/verify-content` - Verify quality
+3. `/generate-agv-description` - Generate catalog description ← NEW
+4. Copy to AgV catalog directory
+5. Test in RHDP Integration
+6. Create PR
+
+---
 
 ### 1. AsciiDoc List Formatting Rules (CRITICAL FIX)
 
@@ -112,12 +162,18 @@ image::architecture.png[Architecture,link=self,window=blank,align="center",width
 
 ## Files Changed
 
+**New Skill**:
+```
+.claude/skills/generate-agv-description/SKILL.md                (new file, 358 lines)
+```
+
 **Documentation**:
 ```
-.claude/docs/SKILL-COMMON-RULES.md                              (+93 lines, section 4 added)
+CLAUDE-SKILLS-GUIDE.adoc                                        (+108 lines - added skill #5)
+.claude/CHANGELOG-2026-01-12.md                                 (+57 lines - new skill entry)
+.claude/docs/SKILL-COMMON-RULES.md                              (+93 lines - section 4 added)
 .claude/prompts/enhanced_verification_demo.txt                  (+72 lines)
 .claude/prompts/enhanced_verification_workshop.txt              (+74 lines)
-.claude/CHANGELOG-2026-01-12.md                                 (new file)
 ```
 
 **Skills**:
@@ -131,7 +187,7 @@ image::architecture.png[Architecture,link=self,window=blank,align="center",width
 .claude/templates/demo/02-details.adoc                          (+9, -3)
 ```
 
-**Total**: 7 files changed, 269 insertions(+), 14 deletions(-)
+**Total**: 9 files changed, 792 insertions(+), 14 deletions(-)
 
 ---
 
