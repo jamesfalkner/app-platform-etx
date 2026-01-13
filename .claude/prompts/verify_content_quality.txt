@@ -121,16 +121,6 @@ Provide your analysis as a JSON object with this structure:
 {
   "file_type": "workshop_content|navigation|infrastructure|technical_reference|supporting",
   "evaluation_focus": "Brief description of what was evaluated for this file type",
-  "overall_score": 85,
-  "dimension_scores": {
-    "learning_objectives": 8,
-    "instructional_design": 9,
-    "technical_accuracy": 8,
-    "completeness": 7,
-    "redhat_compliance": 9,
-    "accessibility": 8,
-    "engagement": 7
-  },
   "strengths": [
     "Clear step-by-step procedures",
     "Good use of Red Hat product terminology"

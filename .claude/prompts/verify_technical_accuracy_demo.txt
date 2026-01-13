@@ -194,44 +194,6 @@ Use these comprehensive examples to provide specific, actionable technical accur
 Required JSON structure:
 ```json
 {
-  "overall_score": 85,
-  "dimension_scores": {
-    "technical_accuracy": 8,
-    "command_validity": 9,
-    "version_compatibility": 8,
-    "demo_reliability": 7,
-    "security_practices": 6,
-    "enterprise_readiness": 9,
-    "content_balance": 8,
-    "link_validation": 7,
-    "asciidoc_formatting": 8,
-    "formatting_consistency": 6
-  },
-  "content_pattern_analysis": {
-    "explanatory_sections_detected": 5,
-    "demonstration_sections_detected": 7,
-    "business_context_indicators": 12,
-    "command_patterns_found": 23,
-    "content_balance_assessment": "balanced",
-    "detected_explanatory_patterns": ["Know::", "Business Value:", "Background:"],
-    "detected_demonstration_patterns": ["Show::", "Steps:", "Navigate to", "CLI commands"],
-    "missing_patterns": ["Customer scenarios", "Quantified benefits"],
-    "link_analysis": {
-      "total_external_links": 8,
-      "links_with_new_tab": 6,
-      "links_missing_new_tab": 2,
-      "poor_link_text": 1,
-      "variable_links": 3
-    },
-    "formatting_analysis": {
-      "bullet_style_consistency": "good",
-      "asciidoc_compliance": "excellent",
-      "line_break_compliance": "needs_improvement",
-      "bullet_line_breaks_missing": 3,
-      "bullet_spacing_issues": 2,
-      "formatting_issues": ["Missing line breaks between bullets", "Mixed bullet styles in section 3", "Inconsistent bullet spacing"]
-    }
-  },
   "strengths": [
     "Excellent mix of business context (WHY) and practical demonstrations (HOW)",
     "Strong command accuracy with proper Red Hat registry usage",

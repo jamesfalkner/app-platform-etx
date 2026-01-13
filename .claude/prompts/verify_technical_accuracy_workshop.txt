@@ -135,16 +135,6 @@ Use these comprehensive examples to provide specific, actionable technical accur
 Required JSON structure:
 ```json
 {
-  "overall_score": 85,
-  "dimension_scores": {
-    "technical_accuracy": 8,
-    "command_validity": 9,
-    "version_compatibility": 8,
-    "learning_progression": 7,
-    "security_practices": 6,
-    "enterprise_readiness": 9,
-    "documentation_quality": 8
-  },
   "strengths": [
     "Specific positive technical aspects with detailed examples"
   ],

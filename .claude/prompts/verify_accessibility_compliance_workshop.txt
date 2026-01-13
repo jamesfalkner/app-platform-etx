@@ -156,16 +156,6 @@ Use these comprehensive examples to provide specific, actionable accessibility f
 Required JSON structure:
 ```json
 {
-  "overall_score": 85,
-  "dimension_scores": {
-    "visual_accessibility": 8,
-    "content_structure": 9,
-    "alt_text_quality": 7,
-    "color_contrast": 8,
-    "learning_accessibility": 6,
-    "screen_reader": 9,
-    "cognitive_load": 8
-  },
   "strengths": [
     "Specific positive accessibility aspects with detailed examples"
   ],

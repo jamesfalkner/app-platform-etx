@@ -239,10 +239,33 @@ Every verification includes:
 
 ## Output Format
 
-Results are presented in clear, actionable format:
+Results are presented in clear, actionable format with **detailed sections FIRST, summary table LAST**:
 
 ```markdown
-📊 Summary Table of All Issues
+## 3 duplicate References sections found
+**Priority: Critical**
+**Affected Files:** 03-module-01.adoc, 04-module-02.adoc, 05-conclusion.adoc
+
+### Details:
+
+1. **Line 245, 03-module-01.adoc**
+   - Current: `== References` section in module
+   - Required: Remove - all references go in conclusion module only
+   - Why: Multiple References sections confuse readers
+   - Fix: Move references to conclusion module, delete from here
+
+2. **Line 189, 04-module-02.adoc**
+   - Current: `== References` section in module
+   - Required: Remove - consolidate in conclusion
+   - Why: Duplicate sections violate Red Hat doc standards
+   - Fix: Copy references to conclusion, delete from module
+
+[... additional detailed issue sections ...]
+
+---
+
+## Validation Summary
+
 ┌──────────────────────────────────┬──────────┬───────────┐
 │              Issue               │ Priority │   Files   │
 ├──────────────────────────────────┼──────────┼───────────┤
@@ -257,6 +280,9 @@ Results are presented in clear, actionable format:
 │ "Powerful" usage                 │ High     │ 4 files   │
 └──────────────────────────────────┴──────────┴───────────┘
 
+**Total Issues:** 15 (5 Critical, 7 High, 3 Medium)
+**Files Affected:** 5 files
+
 ---
 
 ✅ Strengths Worth Highlighting
@@ -268,10 +294,11 @@ Your workshop excels in these areas:
 3. Excellent Verification Sections - Checkpoints with ✅ expected results and troubleshooting are exemplary
 4. Perfect External Link Formatting - ALL external links correctly use ^ caret (opens in new tab)
 5. Clear Persona-Based Learning - User persona approach effectively demonstrates RBAC in action
+```
 
 ---
 
-## Detailed Issue Breakdown (on request)
+## Detailed Issue Breakdown
 
 ### 1. Missing Verification Commands
 **File**: module-01-install-aap.adoc:145
