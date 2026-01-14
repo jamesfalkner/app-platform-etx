@@ -213,6 +213,11 @@ All prompts located in `.claude/prompts/`
 - Troubleshooting completeness
 - Learning outcomes
 - Business context integration
+- External link caret enforcement (`^` for new tabs)
+- Clickable image validation (external links with `^`)
+- Non-clickable image detection (ALL images must use `link=self,window=blank` or external link)
+- List marker semantic validation (bullets vs numbered)
+- List blank line enforcement
 
 #### `verify_workshop_structure.txt`
 **Purpose**: Workshop-specific structure validation
@@ -254,6 +259,11 @@ All prompts located in `.claude/prompts/`
 - Presenter guidance clarity
 - ROI quantification
 - Visual cues for slides
+- External link caret enforcement (`^` for new tabs)
+- Clickable image validation (external links with `^`)
+- Non-clickable image detection (ALL images must use `link=self,window=blank` or external link)
+- List marker semantic validation (bullets vs numbered)
+- List blank line enforcement
 
 #### `verify_technical_accuracy_demo.txt`
 **Purpose**: Technical accuracy for demo procedures
