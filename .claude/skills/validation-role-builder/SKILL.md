@@ -855,23 +855,85 @@ Paste the output.
 
 Repeat testing until validation works correctly.
 
+### Step 5.4: Cleanup After Successful Testing
+
+Once testing is successful, tell user:
+```
+Testing looks good! Before creating PRs, we need to clean up the temporary plugin files used for testing.
+
+The collection should use agnosticd.core.agnosticd_user_info from the execution environment, not bundled plugin files.
+```
+
+If plugin files were copied in Step 3.8, remove them from the collection:
+
+Use Bash tool:
+```bash
+cd {collection_path}
+git rm -f plugins/modules/agnosticd_user_info.py
+git rm -f plugins/action/agnosticd_user_info.py
+git commit -m "Remove temporary plugin files - use agnosticd.core in execution environment"
+git push origin add-{workshop_name}-validation
+```
+
+Tell user:
+```
+Removed temporary plugin files. The collection will use agnosticd.core.agnosticd_user_info from the execution environment instead.
+```
+
+**Important:**
+- Plugin files were only needed for local testing on bastion
+- Production deployments use agnosticd.core from the execution environment
+- Collection PR should NOT include these plugin files
+
 ## Phase 6: Final Deliverables
 
-### Step 6.1: Create Pull Requests
+### Step 6.1: Update AgnosticV to Use Collection Main Branch
 
-**Prerequisites:** Ensure user has completed Phase 5 and tested the validation role manually on bastion with successful results.
+**Prerequisites:** Ensure user has tested the validation on integration.demo.redhat.com and it works correctly.
 
 Ask user to confirm:
 ```
-Have you completed testing the validation role on bastion?
-Did all validation checks pass correctly?
+Have you tested the validation role on integration.demo.redhat.com?
+Did the validation report show correctly in the catalog info page?
 ```
 
 Wait for user confirmation.
 
 Then tell user:
 ```
-Great! Testing complete. Ready to create pull requests.
+Great! Before creating PRs, we need to update AgnosticV to reference the collection's main branch instead of the feature branch.
+
+This ensures the AgnosticV PR points to the correct collection version.
+```
+
+Update the AgnosticV common.yaml to change the collection version from branch to main:
+```yaml
+# Change from:
+agd_v2_collections:
+  - name: {collection_name}
+    source: {collection_repo_url}
+    version: add-{workshop_name}-validation
+
+# To:
+agd_v2_collections:
+  - name: {collection_name}
+    source: {collection_repo_url}
+    version: main
+```
+
+Commit and push:
+```bash
+cd {agv_repo_path}
+git add agd_v2/{workshop_config_path}/common.yaml
+git commit -m "Update collection reference to main branch for PR"
+git push origin add-{workshop_name}-validation
+```
+
+### Step 6.2: Create Pull Requests
+
+Tell user:
+```
+AgnosticV updated to reference main branch. Ready to create pull requests.
 
 Should I create PRs using gh CLI?
 ```
@@ -925,35 +987,6 @@ Create PRs manually:
    - Repository: agnosticv
    - Branch: add-{workshop_name}-validation → master
    - Files: agd_v2/{workshop_config_path}/common.yaml, info-message-template.adoc
-```
-
-### Step 6.2: Update AgnosticV to Use Released Collection
-
-After collection PR is merged, tell user:
-```
-Once the collection PR is merged, we need to update AgnosticV to stop using the branch and use the released version.
-
-Should I remove the branch reference from common.yaml?
-```
-
-If yes, read the AgnosticV common.yaml and DELETE the `agd_v2_collections` section that was added in Step 4.3:
-```yaml
-# DELETE this entire section:
-agd_v2_collections:
-  - name: {collection_name}
-    source: {collection_repo_url}
-    version: add-{workshop_name}-validation
-```
-
-**Important:**
-- KEEP the validation workload in the workloads list
-- ONLY remove the `agd_v2_collections` override
-- This allows AgnosticV to use the released collection version from Galaxy or default source
-
-Commit and push to AgnosticV branch with message:
-```bash
-git commit -m "Remove collection branch reference - use released version"
-git push origin add-{workshop_name}-validation
 ```
 
 ### Step 6.3: Summary
@@ -1112,7 +1145,7 @@ When user invokes this skill, follow this complete flow:
 4. Update info-message-template.adoc with validation report section
 5. Commit and push AgnosticV changes
 
-### Phase 5: Testing on Bastion (8 steps)
+### Phase 5: Testing on Bastion (9 steps)
 1. SSH to bastion
 2. Clone collection repository (using HTTPS URL)
 3. Create Python virtual environment
@@ -1121,13 +1154,14 @@ When user invokes this skill, follow this complete flow:
 6. Setup agnosticd_user_info plugin (install agnosticd.core from git OR copy plugin files)
 7. Build and install collection
 8. Run test playbook
+9. Cleanup: DELETE agnosticd_user_info plugin files from collection (if copied in step 6)
 
 Analyze results, iterate on fixes if needed, repeat testing.
 
 ### Phase 6: Final Deliverables
-1. Confirm testing completed successfully on bastion
-2. Create PRs (using gh CLI or provide manual instructions)
-3. Update AgnosticV to use released collection after merge
+1. Confirm testing on integration.demo.redhat.com is successful
+2. Update AgnosticV to change collection version from feature branch to main
+3. Create PRs (using gh CLI or provide manual instructions)
 4. Provide final summary with next steps
 
 After completion:
