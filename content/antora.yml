@@ -1,11 +1,11 @@
 name: modules
-title: "Red Hat OpenShift: Foundational application platform demo"
+title: "OpenShift Advanced App Platform Demo"
 version: master
 nav:
   - modules/ROOT/nav.adoc
 
 asciidoc:
   attributes:
-    lab_name: "Red Hat OpenShift: Foundational application platform"
+    lab_name: "OpenShift Advanced App Platform"
     release-version: master
     page-pagination: true
